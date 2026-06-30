@@ -19,7 +19,8 @@ Welcome to the official repository tracking Ümmügülsün Türkmen's Erasmus+ i
 ├── internship_diary.md                # Day-by-day activity log (English)
 └── deliverables/                      # Research papers, plans, and technical analysis
     ├── claude_research_plan.md        # Day 1: Claude Ecosystem Research Plan
-    └── claude_workspace_features_analysis.md # Day 2: Workspace Features & Integration Analysis
+    ├── claude_workspace_features_analysis.md # Day 2: Workspace Features & Integration Analysis
+    └── claude_gdpr_and_team_efficiency_guide.md # Day 3: Team Efficiency & GDPR Guide (Draft)
 ```
 
 ### 📓 Active Logs
@@ -28,6 +29,7 @@ Welcome to the official repository tracking Ümmügülsün Türkmen's Erasmus+ i
 ### 💼 Technical Deliverables
 *   **[Claude AI Research Plan](file:///Users/ummugulsun/Documents/antigravity/erasmus%20internship/deliverables/claude_research_plan.md)**: Structured approach to analyzing generative AI capabilities for green tech workflows.
 *   **[Claude Workspace Features & Collaboration Analysis](file:///Users/ummugulsun/Documents/antigravity/erasmus%20internship/deliverables/claude_workspace_features_analysis.md)**: A detailed pros and cons analysis sheet of collaborative agent workspaces for Apollo.
+*   **[Claude GDPR & Team Efficiency Guide (Draft)](file:///Users/ummugulsun/Documents/antigravity/erasmus%20internship/deliverables/claude_gdpr_and_team_efficiency_guide.md)**: Draft guide on how to use Claude Chat effectively within a team environment while adhering strictly to GDPR compliance.
 
 ---
 
