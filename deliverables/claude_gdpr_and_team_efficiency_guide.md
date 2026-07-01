@@ -47,17 +47,36 @@ flowchart TD
 
 Using Claude in a corporate environment is significantly different from individual usage. To maximize efficiency, the team should leverage the following features:
 
-### A. Folder & Chat Organization
+### A. Core Platform Definitions
+*   **Projects (Persistent Knowledge):** Self-contained workspaces with their own chat history, custom instructions, and dedicated knowledge bases.
+*   **Skills (Persistent Workflows):** Preset workflows under `Customize` that act as "expertise packages." They teach Claude how to execute repeatable processes automatically.
+*   **Connectors (Unified Apps):** Integrations (Google Drive, Slack, Jira) that turn Claude into the command center for your entire workflow.
+
+### B. Best Prompting Practice: The ICC Formula
+To avoid generic responses, all team members should write prompts using the **ICC Formula**:
+1.  **Instructions (I):** Define the exact task and actions Claude should take.
+2.  **Context (C):** Set the stage with your role, background, objectives, and any relevant data (air on the side of more context).
+3.  **Constraints (C):** Specify exact formatting, tone, length, rules, or provide an output example.
+
+> [!TIP]
+> **The Context Interview:** If you are unsure what context to include, add this sentence to the end of your prompt:  
+> *"Please ask me any additional context questions you need to best complete this task."* Claude will interview you to tailor the output perfectly.
+
+### C. Folder & Chat Organization
 *   **Structured Naming:** Label chats with prefixes for easy scanning (e.g., `[Proposal] Client Name`, `[Code] Carbon Estimator API`).
-*   **Topic Folders:** Group active chats into folders based on specific project domains (e.g., *Sustainability Reports, Sales Pitches, Frontend Dev*). This prevents team members from having to scroll through long, unorganized histories.
+*   **Topic Folders:** Group active chats into folders based on specific project domains (e.g., *Sustainability Reports, Sales Pitches, Frontend Dev*).
 
-### B. Claude Projects & Shared Knowledge
-Claude's **Projects** feature allows the team to build isolated workspaces centered around specific files and custom instructions.
-*   **Shared Project Knowledge:** Upload static documents (e.g., Apollo’s official report template, coding style guides, green tech case studies) directly into a project. All chats initiated within that project will automatically refer to those documents.
-*   **Custom Instructions:** Set a default behavior for the project (e.g., *"Write all code using React and tailwind,"* or *"Keep tone formal, concise, and aligned with Apollo Green Solutions' writing standards"*).
+### D. Claude Projects over Global Settings (Crucial)
+> [!IMPORTANT]
+> **Common Mistake to Avoid:** Do not fill out the custom instructions at the account/profile level (under Settings). This applies those rules globally to all chats, leading to poor or weird responses.  
+> **Better Practice:** Leave global settings blank and set custom instructions at the **Project level** so they are strictly scoped to the correct context.
 
-### C. Reusable Document Templates
-Instead of writing complex prompts repeatedly, the team can establish prompt templates. For example:
+### E. Model Selection Guidelines
+*   **Sonnet (with Extended Thinking):** The default model for daily reasoning, writing, and analytical tasks.
+*   **Opus:** The most powerful model, to be used for highly complex tasks or advanced coding.
+
+### F. Reusable Document Templates
+Instead of writing complex prompts repeatedly, the team can establish prompt templates within Projects. For example:
 
 > **Template: Proposal Formatting Prompt**
 > ```text
