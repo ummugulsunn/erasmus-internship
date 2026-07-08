@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude AI Onboarding & Training — Apollo Green Solutions</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* CSS Variables for Curated Theme */
+    :root {
+      --bg-color: #0f1013;
+      --card-bg: #17181c;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --accent: #d97706; /* Warm Orange/Coral */
+      --accent-hover: #b45309;
+      --border-color: #2e3039;
+      --glass-bg: rgba(23, 24, 28, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.05);
+      --primary-font: 'Inter', sans-serif;
+      --display-font: 'Outfit', sans-serif;
+    }
+
+    /* Light Theme Overrides */
+    .light-theme {
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --accent: #d97706;
+      --accent-hover: #b45309;
+      --border-color: #e5e7eb;
+      --glass-bg: rgba(255, 255, 255, 0.8);
+      --glass-border: rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    body {
+      font-family: var(--primary-font);
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header & Navigation */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-symbol {
+      width: 2rem;
+      height: 2rem;
+      background: linear-gradient(135deg, var(--accent), #f59e0b);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #0f1013;
+      font-family: var(--display-font);
+    }
+
+    .logo-text {
+      font-family: var(--display-font);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+
+    .logo-text span {
+      color: var(--accent);
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .theme-toggle-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      color: var(--text-main);
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent);
+    }
+
+    /* Presentation Layout */
+    .presentation-container {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 73px);
+      position: relative;
+    }
+
+    /* Sidebar Slide Index */
+    .slide-sidebar {
+      width: 280px;
+      border-right: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      overflow-y: auto;
+    }
+
+    .sidebar-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      font-family: var(--display-font);
+    }
+
+    .slide-link {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      border: 1px solid transparent;
+    }
+
+    .slide-link:hover {
+      background-color: var(--border-color);
+      color: var(--text-main);
+    }
+
+    .slide-link.active {
+      background-color: rgba(217, 119, 6, 0.1);
+      border-color: rgba(217, 119, 6, 0.2);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .slide-num {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background-color: var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .slide-link.active .slide-num {
+      background-color: var(--accent);
+      color: #0f1013;
+    }
+
+    /* Main Slide Stage */
+    .slide-stage {
+      flex: 1;
+      padding: 2.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .slide-content {
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+      animation: fadeIn 0.4s ease-out forwards;
+      height: 100%;
+    }
+
+    .slide-content.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Slide Typography */
+    .slide-header {
+      margin-bottom: 1rem;
+    }
+
+    .slide-pretitle {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+
+    .slide-title {
+      font-family: var(--display-font);
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .slide-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    /* Layout Grids */
+    .interactive-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2rem;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .content-box {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* Visual Screenshot Container with Zoom/Hover hotspots */
+    .screenshot-container {
+      position: relative;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: 480px;
+    }
+
+    .screenshot-wrapper {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+      max-height: 480px;
+    }
+
+    .screenshot-img {
+      max-width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Hotspots overlays */
+    .hotspot {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background-color: var(--accent);
+      border: 3px solid #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #0f1013;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      animation: pulse 2s infinite;
+    }
+
+    .hotspot:hover {
+      transform: scale(1.2);
+      background-color: #fff;
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(217, 119, 6, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
+    }
+
+    /* Hotspot info cards */
+    .hotspot-details-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      justify-content: center;
+      min-height: 200px;
+      border-left: 4px solid var(--accent);
+    }
+
+    .details-title {
+      font-family: var(--display-font);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .details-desc {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .details-tip {
+      font-size: 0.8125rem;
+      color: var(--accent);
+      background-color: rgba(217, 119, 6, 0.08);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      border: 1px dashed rgba(217, 119, 6, 0.2);
+    }
+
+    /* Q&A Accordion Layout */
+    .qa-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .qa-filters {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 0.8125rem;
+      font-weight: 500;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background-color: var(--accent);
+      color: #0f1013;
+      border-color: var(--accent);
+    }
+
+    .qa-item {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: var(--card-bg);
+    }
+
+    .qa-question {
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--card-bg);
+    }
+
+    .qa-question:hover {
+      background-color: var(--border-color);
+    }
+
+    .qa-question::after {
+      content: '+';
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--accent);
+      transition: transform 0.2s ease;
+    }
+
+    .qa-item.open .qa-question::after {
+      content: '−';
+    }
+
+    .qa-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out, padding 0.2s ease-out;
+      background-color: rgba(255, 255, 255, 0.01);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .qa-item.open .qa-answer {
+      max-height: 300px;
+      padding: 1rem 1.25rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* Lists and Badges */
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .badge-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .badge-icon {
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .badge-title {
+      font-family: var(--display-font);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .badge-desc {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Prompting Formula Table */
+    .formula-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .formula-table th, .formula-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .formula-table th {
+      font-family: var(--display-font);
+      font-weight: 600;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    .formula-table td {
+      font-size: 0.875rem;
+      vertical-align: top;
+    }
+
+    .formula-tag {
+      background-color: rgba(217, 119, 6, 0.1);
+      color: var(--accent);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+
+    /* Privacy Table */
+    .privacy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .privacy-list {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .privacy-list li {
+      position: relative;
+      padding-left: 1.75rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .privacy-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .privacy-list.danger li::before {
+      content: "✗";
+      color: #ef4444;
+    }
+
+    /* Bottom Status bar / Presentation Controls */
+    .presentation-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2.5rem;
+      border-top: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+      z-index: 10;
+    }
+
+    .progress-bar-container {
+      flex: 1;
+      height: 4px;
+      background-color: var(--border-color);
+      margin: 0 2rem;
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background-color: var(--accent);
+      width: 12.5%;
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    .control-btn {
+      background-color: var(--border-color);
+      border: none;
+      color: var(--text-main);
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .control-btn:hover {
+      background-color: var(--accent);
+      color: #0f1013;
+    }
+
+    .control-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .control-btn:disabled:hover {
+      background-color: var(--border-color);
+      color: var(--text-main);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-color);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo-container">
+      <div class="logo-symbol">C</div>
+      <div class="logo-text">Claude Onboarding <span>Training</span></div>
+    </div>
+    <div class="header-controls">
+      <div style="font-size: 0.8125rem; color: var(--text-muted); font-weight: 500;">
+        Prepared for: <strong>Apollo Green Solutions</strong>
+      </div>
+      <button class="theme-toggle-btn" id="theme-toggle">
+        <span id="theme-icon">☀️</span> Light Theme
+      </button>
+    </div>
+  </header>
+
+  <!-- Presentation Stage -->
+  <div class="presentation-container">
+    
+    <!-- Sidebar / Slide Selector -->
+    <div class="slide-sidebar">
+      <div class="sidebar-title">Modules</div>
+      
+      <div class="slide-link active" onclick="goToSlide(0)">
+        <div class="slide-num">1</div>
+        <span>Welcome & Intro</span>
+      </div>
+      <div class="slide-link" onclick="goToSlide(1)">
+        <div class="slide-num">2</div>
+        <span>Interactive Chat UI</span>
+      </div>
+      <div class="slide-link" onclick="goToSlide(2)">
+        <div class="slide-num">3</div>
+        <span>Projects Interface</span>
+      </div>
+      <div class="slide-link" onclick="goToSlide(3)">
+        <div class="slide-num">4</div>
+        <span>Customize Dialog</span>
+      </div>
+      <div class="slide-link" onclick="goToSlide(4)">
+        <div class="slide-num">5</div>
+        <span>Onboarding Q&A Hub</span>
+      </div>
+      <div class="slide-link" onclick="goToSlide(5)">
+        <div class="slide-num">6</div>
+        <span>Effective Prompting</span>
+      </div>
+      <div class="slide-link" onclick="goToSlide(6)">
+        <div class="slide-num">7</div>
+        <span>Privacy & Safety</span>
+      </div>
+      <div class="slide-link" onclick="goToSlide(7)">
+        <div class="slide-num">8</div>
+        <span>Onboarding Roadmap</span>
+      </div>
+    </div>
+
+    <!-- Main Slide Box -->
+    <div class="slide-stage">
+
+      <!-- SLIDE 1: Welcome -->
+      <div class="slide-content active" id="slide-0">
+        <div class="slide-header">
+          <div class="slide-pretitle">Module 1</div>
+          <h1 class="slide-title">Claude AI Employee Onboarding</h1>
+          <p class="slide-subtitle">A comprehensive guide to utilizing Claude Enterprise productively and securely at Apollo.</p>
+        </div>
+        <div class="content-box" style="flex: 1; justify-content: center; align-items: center; text-align: center; gap: 2rem;">
+          <div style="max-width: 600px;">
+            <h2 style="font-family: var(--display-font); font-size: 1.75rem; margin-bottom: 1rem;">Transitioning Apollo to AI-Assisted Efficiency</h2>
+            <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem;">
+              This training deck is designed to onboard all Apollo team members to Claude Enterprise. 
+              Our goal is to make sure every team member understands <strong>every button</strong>, feels confident about <strong>data privacy</strong>, and knows how to automate repetitive workflows.
+            </p>
+            <div class="badge-grid" style="margin-top: 2rem;">
+              <div class="badge-card">
+                <div class="badge-icon">🔒</div>
+                <div class="badge-title">GDPR Compliant</div>
+                <div class="badge-desc">Zero Data Retention (ZDR) applied. Your corporate data is fully protected.</div>
+              </div>
+              <div class="badge-card">
+                <div class="badge-icon">⚡</div>
+                <div class="badge-title">Feature Optimization</div>
+                <div class="badge-desc">Learn how to use Projects, Artifacts, and Customize options effectively.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: Interactive Chat UI Map -->
+      <div class="slide-content" id="slide-1">
+        <div class="slide-header">
+          <div class="slide-pretitle">Module 2</div>
+          <h1 class="slide-title">Interactive Chat UI Map</h1>
+          <p class="slide-subtitle">Click the pulsing orange hotspots on the screenshot to explore what each button does.</p>
+        </div>
+        <div class="interactive-grid">
+          <!-- Screenshot with absolute overlays -->
+          <div class="screenshot-container">
+            <div class="screenshot-wrapper">
+              <img src="assets/chat_ui.png" class="screenshot-img" alt="Claude Chat Interface">
+              
+              <!-- Hotspots -->
+              <div class="hotspot" style="top: 23%; left: 8%;" onclick="showHotspotInfo('sidebar', 1)">1</div>
+              <div class="hotspot" style="top: 53.5%; left: 74.5%;" onclick="showHotspotInfo('model-select', 2)">2</div>
+              <div class="hotspot" style="top: 47%; left: 50%;" onclick="showHotspotInfo('text-input', 3)">3</div>
+              <div class="hotspot" style="top: 53.5%; left: 38%;" onclick="showHotspotInfo('attach-btn', 4)">4</div>
+              <div class="hotspot" style="top: 53.5%; left: 81.5%;" onclick="showHotspotInfo('voice-btn', 5)">5</div>
+              <div class="hotspot" style="top: 53.5%; left: 84.5%;" onclick="showHotspotInfo('audio-btn', 6)">6</div>
+              <div class="hotspot" style="top: 61%; left: 60%;" onclick="showHotspotInfo('quick-actions', 7)">7</div>
+              <div class="hotspot" style="top: 7%; left: 14%;" onclick="showHotspotInfo('search-tool', 8)">8</div>
+            </div>
+          </div>
+          
+          <!-- Detail panel -->
+          <div class="hotspot-details-card" id="chat-details-card">
+            <div class="details-title">👈 Click a Hotspot</div>
+            <div class="details-desc">Click any numbered hotspot on the Claude interface screenshot to view the detailed guide for that specific button, including usage tips for Apollo.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: Projects Page Map -->
+      <div class="slide-content" id="slide-2">
+        <div class="slide-header">
+          <div class="slide-pretitle">Module 3</div>
+          <h1 class="slide-title">Projects Interface Map</h1>
+          <p class="slide-subtitle">Click the pulsing orange hotspots on the Projects interface to explore workspaces.</p>
+        </div>
+        <div class="interactive-grid">
+          <div class="screenshot-container">
+            <div class="screenshot-wrapper">
+              <img src="assets/project_detail_ui.png" class="screenshot-img" alt="Claude Project Detail Workspace">
+              <div class="hotspot" style="top: 28%; left: 80%;" onclick="showHotspotInfo('project-instructions', 1)">1</div>
+              <div class="hotspot" style="top: 45%; left: 80%;" onclick="showHotspotInfo('project-files', 2)">2</div>
+              <div class="hotspot" style="top: 30%; left: 45%;" onclick="showHotspotInfo('project-chat-box', 3)">3</div>
+              <div class="hotspot" style="top: 70%; left: 15%;" onclick="showHotspotInfo('project-checklist', 4)">4</div>
+              <div class="hotspot" style="top: 7%; left: 32%;" onclick="showHotspotInfo('project-navigation', 5)">5</div>
+            </div>
+          </div>
+          <div class="hotspot-details-card" id="projects-details-card">
+            <div class="details-title">👈 Explore the Workspace</div>
+            <div class="details-desc">Click hotspots to learn how to set guidelines, upload files, and organize chats inside a Project.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: Customize Dialog Map -->
+      <div class="slide-content" id="slide-3">
+        <div class="slide-header">
+          <div class="slide-pretitle">Module 4</div>
+          <h1 class="slide-title">Customize & Settings Panel</h1>
+          <p class="slide-subtitle">Click the hotspots to explore Skills, Connectors, and Plugins settings.</p>
+        </div>
+        <div class="interactive-grid">
+          <div class="screenshot-container">
+            <div class="screenshot-wrapper">
+              <img src="assets/customize_ui.png" class="screenshot-img" alt="Claude Customize Interface">
+              <div class="hotspot" style="top: 64%; left: 21%;" onclick="showHotspotInfo('skills-settings', 1)">1</div>
+              <div class="hotspot" style="top: 68%; left: 21%;" onclick="showHotspotInfo('connectors-settings', 2)">2</div>
+              <div class="hotspot" style="top: 72%; left: 21%;" onclick="showHotspotInfo('plugins-settings', 3)">3</div>
+              <div class="hotspot" style="top: 12%; left: 80%;" onclick="showHotspotInfo('skills-add', 4)">4</div>
+            </div>
+          </div>
+          <div class="hotspot-details-card" id="customize-details-card">
+            <div class="details-title">👈 Explore Customizations</div>
+            <div class="details-desc">Understand how to set up expert workflows (Skills) and integrate tools like Figma and Canva (Connectors).</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 5: Onboarding Q&A Hub -->
+      <div class="slide-content" id="slide-4">
+        <div class="slide-header">
+          <div class="slide-pretitle">Module 5</div>
+          <h1 class="slide-title">Employee Q&A Onboarding Hub</h1>
+          <p class="slide-subtitle">Critical questions and answers compiled to help team members transition smoothly.</p>
+        </div>
+        <div class="content-box" style="flex: 1; overflow-y: auto;">
+          <div class="qa-filters">
+            <button class="filter-btn active" onclick="filterQA('all')">All Questions</button>
+            <button class="filter-btn" onclick="filterQA('privacy')">Privacy & Security</button>
+            <button class="filter-btn" onclick="filterQA('files')">Files & Limits</button>
+            <button class="filter-btn" onclick="filterQA('prompting')">Prompting & Chats</button>
+            <button class="filter-btn" onclick="filterQA('advanced')">Advanced Features</button>
+          </div>
+          
+          <div class="qa-container">
+            <!-- Q1 -->
+            <div class="qa-item" data-category="prompting">
+              <div class="qa-question">1. What is Claude, and which version/model am I using?</div>
+              <div class="qa-answer">
+                Claude is a next-generation AI assistant developed by Anthropic. In our Apollo workspace, we have access to the Enterprise subscription. The default model in the input selector is **Sonnet 5 Medium** (best for speed and daily work). We also have access to **Sonnet 5 Mini** (very fast) and **Opus 4.6** (most advanced reasoning model, supporting "Thinking" mode for complex tasks).
+              </div>
+            </div>
+            <!-- Q2 -->
+            <div class="qa-item" data-category="prompting">
+              <div class="qa-question">2. What kinds of tasks is Claude best at—writing, analysis, coding, research, or brainstorming?</div>
+              <div class="qa-answer">
+                Claude excels at:
+                <ul>
+                  <li><strong>Writing:</strong> Highly natural, professional writing matched to our brand voice.</li>
+                  <li><strong>Analysis:</strong> Auditing energy data, reading spreadsheets, and extracting details from long contracts.</li>
+                  <li><strong>Brainstorming:</strong> Drafting customer proposals and energy transition strategies.</li>
+                  <li><strong>Coding:</strong> Writing automation scripts (in the Code tab).</li>
+                  <li><em>Note:</em> For live web research, use the research plugins or the Cowork agent features.</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Q3 -->
+            <div class="qa-item" data-category="prompting">
+              <div class="qa-question">3. How should I phrase prompts to get specific, useful answers?</div>
+              <div class="qa-answer">
+                Give Claude a clear role, provide detailed background, set constraints, and specify the output format (the <strong>ICC Formula</strong>). Separate different blocks of data using XML tags (e.g. <code>&lt;document&gt;...&lt;/document&gt;</code>). This helps Claude understand where instructions stop and data begins.
+              </div>
+            </div>
+            <!-- Q4 -->
+            <div class="qa-item" data-category="files">
+              <div class="qa-question">4. How do I provide context, files, or examples for Claude to work with?</div>
+              <div class="qa-answer">
+                Upload files (PDF, CSV, TXT, images) using the <strong>+</strong> button for temporary single chats. For permanent team access, upload files under the <strong>Files</strong> tab inside a Project. 
+                <br><em>Pro Tip:</em> Provide 1 or 2 examples of your desired format (few-shot prompting) in your prompt. This is the single most effective way to guarantee the correct output style.
+              </div>
+            </div>
+            <!-- Q5 -->
+            <div class="qa-item" data-category="prompting">
+              <div class="qa-question">5. How can I ask Claude to revise, shorten, expand, or change the tone of an answer?</div>
+              <div class="qa-answer">
+                You don't need to rewrite your prompt. Simply reply to the output with commands like <em>"Shorten this to 2 paragraphs,"</em> <em>"Rewrite this in an encouraging tone,"</em> or <em>"Convert this to a table."</em> You can also hit the <strong>↑ Up Arrow</strong> key on your keyboard to edit your previous message.
+              </div>
+            </div>
+            <!-- Q6 -->
+            <div class="qa-item" data-category="privacy">
+              <div class="qa-question">6. How do I verify Claude's factual claims and citations?</div>
+              <div class="qa-answer">
+                While Claude is highly accurate, it can occasionally hallucinate. Always ask Claude: <em>"Show me the specific quote or section from the document that supports this claim."</em> For critical facts or statistics, manually cross-check the referenced section in the source file.
+              </div>
+            </div>
+            <!-- Q7 -->
+            <div class="qa-item" data-category="advanced">
+              <div class="qa-question">7. What are Claude's limitations with current information, calculations, and hallucinations?</div>
+              <div class="qa-answer">
+                <ul>
+                  <li><strong>Current Info:</strong> Standard Claude is limited by its training data. For up-to-date web info (e.g. current energy rates), toggle the <strong>Web search</strong> checkbox in the <strong>+</strong> menu.</li>
+                  <li><strong>Calculations:</strong> Claude can make mistakes with complex math. Ask it to <em>"write and run Python code"</em> to perform calculations, or write <em>"verify your math step-by-step."</em></li>
+                  <li><strong>Hallucinations:</strong> Prevent them by adding a constraint: <em>"If the answer is not present in the files, state 'I do not know.'"</em></li>
+                </ul>
+              </div>
+            </div>
+            <!-- Q-Plugins (New) -->
+            <div class="qa-item" data-category="advanced">
+              <div class="qa-question">7b. What are plugins? Which plugins are interesting for Claude?</div>
+              <div class="qa-answer">
+                Plugins are tools that expand Claude's functions beyond text processing. In our directory, interesting plugins include:
+                <ul>
+                  <li><strong>PDF Viewer:</strong> View, annotate, and sign contracts live in an interactive window.</li>
+                  <li><strong>Productivity:</strong> Manage tasks, plan your day, and build project memories.</li>
+                  <li><strong>Enterprise Search:</strong> Search across all company tools (email, chat, docs).</li>
+                  <li><strong>Data:</strong> Run SQL, explore datasets, and generate visualizations/dashboards.</li>
+                  <li><strong>Legal & Finance:</strong> Automate NDA reviews, compliance triage, and account reconciliations.</li>
+                </ul>
+              </div>
+            </div>
+            <!-- Q8 -->
+            <div class="qa-item" data-category="advanced">
+              <div class="qa-question">8. How do Projects, saved instructions, or custom preferences work in Claude?</div>
+              <div class="qa-answer">
+                <strong>Projects</strong> are isolated workspaces. They contain <strong>Project Instructions</strong> (custom guidelines that apply to all chats in the project) and <strong>Project Files</strong>. Instead of pasting guidelines every time you start a new chat, projects automate the context for you.
+                <br><em>Custom Preferences:</em> You can set global instructions under <strong>Settings > General > Instructions for Claude</strong> which apply to all chats.
+                <br><img src="assets/general_settings_ui.png" style="width: 100%; max-height: 200px; object-fit: contain; background: #000; border-radius: 6px; border: 1px solid var(--border-color); margin-top: 0.75rem;" alt="General Settings Custom Preferences">
+              </div>
+            </div>
+            <!-- Q-TeamProjects (New) -->
+            <div class="qa-item" data-category="advanced">
+              <div class="qa-question">8b. What is a Team Project and how does it work?</div>
+              <div class="qa-answer">
+                A <strong>Team Project</strong> is a project shared with either the entire workspace or specific team members. Multiple team members can start chats inside it, view each other's chats, and add files. A <strong>Private Project</strong> is only visible to you.
+              </div>
+            </div>
+            <!-- Q-PersonalUse (New) -->
+            <div class="qa-item" data-category="privacy">
+              <div class="qa-question">8c. Can I use the company Claude account for personal tasks? Which accounts should I use?</div>
+              <div class="qa-answer">
+                <strong>No.</strong> Apollo's corporate account must only be used for work-related tasks. You should avoid asking personal questions or uploading personal documents to the corporate account. For personal use, please use a separate personal free account.
+              </div>
+            </div>
+            <!-- Q9 -->
+            <div class="qa-item" data-category="privacy">
+              <div class="qa-question">9. What privacy settings apply to my chats and uploaded documents?</div>
+              <div class="qa-answer">
+                Under Apollo's Enterprise plan, Anthropic enforces <strong>Zero Data Retention (ZDR)</strong>. Your chats, prompts, and uploaded documents are encrypted and <strong>never used to train Anthropic's models</strong>. 
+                <br><em>Admin Visibility:</em> <strong>Super admins cannot see the content of your chats.</strong> They only see activity logs (e.g. login times, file names uploaded). You can ask private questions freely.
+              </div>
+            </div>
+            <!-- Q10 -->
+            <div class="qa-item" data-category="privacy">
+              <div class="qa-question">10. Do I need to manually anonymize candidate CVs before uploading them to Claude?</div>
+              <div class="qa-answer">
+                <strong>On our Enterprise Plan, NO.</strong> Because Apollo Solutions uses the Claude Enterprise plan with <strong>Zero Data Retention (ZDR)</strong>, Anthropic never trains models on your uploads and processes data in a secure, encrypted environment. Recruiters can upload candidate resumes directly to restricted project workspaces without manual redaction. 
+                <br><em>Exception:</em> You must still never upload passwords, credit card numbers, or social security numbers. On personal free accounts, manual anonymization is still mandatory.
+              </div>
+            </div>
+            <!-- Q11 -->
+            <div class="qa-item" data-category="files">
+              <div class="qa-question">11. How many files can I upload, and does it have a memory?</div>
+              <div class="qa-answer">
+                <ul>
+                  <li><strong>File Limit:</strong> You can upload up to 5-10 files per message (each up to 10-32MB). In Projects, you can store up to 100+ files as reference material.</li>
+                  <li><strong>Memory:</strong> Claude remembers everything said <em>within the current chat thread</em> (up to 200,000 tokens, which is ~150,000 words). Memory features can be configured in settings.</li>
+                </ul>
+                 <img src="assets/capabilities_settings_ui.png" style="width: 100%; max-height: 200px; object-fit: contain; background: #000; border-radius: 6px; border: 1px solid var(--border-color); margin-top: 0.75rem;" alt="Capabilities Memory Settings">
+              </div>
+            </div>
+            <!-- Q12 -->
+            <div class="qa-item" data-category="advanced">
+              <div class="qa-question">12. Can Claude run code or build interactive apps? How do I control these?</div>
+              <div class="qa-answer">
+                Yes. Under <strong>Settings > Capabilities</strong>, you can configure these options:
+                <ul>
+                  <li><strong>Code execution:</strong> Allows Claude to write and run Python scripts locally in a secure sandbox to verify complex math or clean datasets.</li>
+                  <li><strong>AI-powered artifacts:</strong> Allows Claude to build interactive web apps, dashboards, or SVGs that render in the side panel.</li>
+                </ul>
+                <img src="assets/capabilities_part2_ui.png" style="width: 100%; max-height: 200px; object-fit: contain; background: #000; border-radius: 6px; border: 1px solid var(--border-color); margin-top: 0.75rem;" alt="Capabilities Visuals and Code Settings">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 6: Effective Prompting -->
+      <div class="slide-content" id="slide-5">
+        <div class="slide-header">
+          <div class="slide-pretitle">Module 6</div>
+          <h1 class="slide-title">Effective Prompting: Claude vs ChatGPT</h1>
+          <p class="slide-subtitle">While the core skill is the same, Claude has distinct prompting advantages you should leverage.</p>
+        </div>
+        <div class="content-box" style="flex: 1; overflow-y: auto;">
+          
+          <div class="privacy-grid" style="margin-bottom: 1.5rem;">
+            <div>
+              <h4 style="font-family: var(--display-font); font-size: 1.1rem; color: var(--accent); margin-bottom: 0.5rem;">ChatGPT Prompting Style</h4>
+              <ul class="privacy-list" style="list-style-type: none;">
+                <li style="color: var(--text-muted); font-size: 0.875rem;">Great for short, conversational prompts.</li>
+                <li style="color: var(--text-muted); font-size: 0.875rem;">Smaller context window limits the volume of source material.</li>
+                <li style="color: var(--text-muted); font-size: 0.875rem;">Frequently ignores negative constraints in long conversations.</li>
+                <li style="color: var(--text-muted); font-size: 0.875rem;">Does not support XML parsing naturally.</li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="font-family: var(--display-font); font-size: 1.1rem; color: #10b981; margin-bottom: 0.5rem;">Claude Prompting Style (Apollo Standard)</h4>
+              <ul class="privacy-list" style="list-style-type: none;">
+                <li style="color: var(--text-muted); font-size: 0.875rem; position: relative;">Responds exceptionally well to <strong>longer source materials</strong> and detailed background.</li>
+                <li style="color: var(--text-muted); font-size: 0.875rem; position: relative;">Strictly adheres to <strong>negative constraints</strong> (e.g. <em>"Do not use marketing jargon"</em>).</li>
+                <li style="color: var(--text-muted); font-size: 0.875rem; position: relative;">Uses <strong>XML tags</strong> (e.g. <code>&lt;document&gt;</code>) to parse data cleanly.</li>
+                <li style="color: var(--text-muted); font-size: 0.875rem; position: relative;">Maintains performance even with 500+ pages of reference files.</li>
+              </ul>
+            </div>
+          </div>
+
+          <h4 style="font-family: var(--display-font); font-size: 1.1rem; margin-bottom: 0.5rem;">The Instructions - Context - Constraints (ICC) Formula</h4>
+          <table class="formula-table">
+            <thead>
+              <tr>
+                <th>Element</th>
+                <th>Purpose</th>
+                <th>Example for Apollo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="formula-tag">Instructions</span></td>
+                <td>Define the exact task and role.</td>
+                <td><em>"You are an energy consultant. Summarize this building consumption report."</em></td>
+              </tr>
+              <tr>
+                <td><span class="formula-tag">Context</span></td>
+                <td>Provide background data or files.</td>
+                <td><em>"Here is the building energy audit data from Q3. [Attach audit CSV]"</em></td>
+              </tr>
+              <tr>
+                <td><span class="formula-tag">Constraints</span></td>
+                <td>Set limits, format rules, or tone.</td>
+                <td><em>"Use ISO 50001 terms. Output as a bullet list of energy-saving measures. Do not exceed 5 points."</em></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SLIDE 7: Privacy & Safety -->
+      <div class="slide-content" id="slide-6">
+        <div class="slide-header">
+          <div class="slide-pretitle">Module 7</div>
+          <h1 class="slide-title">GDPR and Sensitive Data Policy</h1>
+          <p class="slide-subtitle">Understanding what is safe to upload and what rules apply to corporate data.</p>
+        </div>
+        <div class="content-box" style="flex: 1; gap: 1.5rem;">
+          <h3 style="font-family: var(--display-font); font-size: 1.25rem;">Corporate Data Classification</h3>
+          <p style="color: var(--text-muted); font-size: 0.9375rem; line-height: 1.5;">
+            Claude Enterprise operates with <strong>Zero Data Retention</strong>, meaning Anthropic does not train its models on our inputs. However, we must maintain strict internal data hygiene.
+          </p>
+          
+          <div class="privacy-grid">
+            <div>
+              <h4 style="font-family: var(--display-font); font-size: 1.1rem; color: #10b981; margin-bottom: 0.75rem;">✔️ SAFE TO UPLOAD (Enterprise ZDR)</h4>
+              <ul class="privacy-list">
+                <li>Candidate CVs / Resumes (direct upload is safe under Apollo's Enterprise agreement).</li>
+                <li>Raw building consumption data (kilowatt hours, dates).</li>
+                <li>Public energy regulations and guidelines.</li>
+                <li>Internal company policy documents, SOP templates.</li>
+                <li>Standard email draft structures.</li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="font-family: var(--display-font); font-size: 1.1rem; color: #ef4444; margin-bottom: 0.75rem;">❌ DO NOT UPLOAD (Strictly Blocked)</h4>
+              <ul class="privacy-list danger">
+                <li>Corporate passwords, API credentials, server logins.</li>
+                <li>Raw credit card numbers, billing addresses, IBANs.</li>
+                <li>Social security numbers or government identity scans.</li>
+                <li>Highly confidential Apollo financial spreadsheets (before release).</li>
+                <li>Customer database files containing unhashed passwords.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 8: Onboarding Roadmap -->
+      <div class="slide-content" id="slide-7">
+        <div class="slide-header">
+          <div class="slide-pretitle">Module 8</div>
+          <h1 class="slide-title">Apollo AI Transition Roadmap</h1>
+          <p class="slide-subtitle">The phases of integrating Claude into our daily business processes.</p>
+        </div>
+        <div class="content-box" style="flex: 1; justify-content: center;">
+          <div class="badge-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="badge-card" style="border-top: 4px solid var(--accent);">
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase;">Phase 1</div>
+              <div class="badge-title" style="margin-top: 0.25rem;">Chat Basics & Security</div>
+              <p class="badge-desc" style="margin-top: 0.5rem;">Understand buttons, learn prompting techniques (ICC), and establish GDPR anonymization guidelines across the team.</p>
+            </div>
+            <div class="badge-card" style="border-top: 4px solid #f59e0b;">
+              <div style="font-size: 0.75rem; font-weight: 700; color: #f59e0b; text-transform: uppercase;">Phase 2</div>
+              <div class="badge-title" style="margin-top: 0.25rem;">Projects & Skills Setup</div>
+              <p class="badge-desc" style="margin-top: 0.5rem;">Configure client-specific projects, set project guidelines, and build reusable skills (like the Energy Report Formatter).</p>
+            </div>
+            <div class="badge-card" style="border-top: 4px solid #10b981;">
+              <div style="font-size: 0.75rem; font-weight: 700; color: #10b981; text-transform: uppercase;">Phase 3</div>
+              <div class="badge-title" style="margin-top: 0.25rem;">Automations (Cowork)</div>
+              <p class="badge-desc" style="margin-top: 0.5rem;">Integrate Figma, Canva, and HubSpot. Automate background research and HR candidate screening using Claude Cowork.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 9: Live Demo Helper -->
+      <div class="slide-content" id="slide-8">
+        <div class="slide-header">
+          <div class="slide-pretitle">Interactive Demo</div>
+          <h1 class="slide-title">Live Demo: The Complete Walkthrough</h1>
+          <p class="slide-subtitle">A step-by-step tour explaining every button and setting up our first Apollo project.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem; flex: 1;">
+          
+          <!-- Demo Steps Column -->
+          <div class="info-card" style="display: flex; flex-direction: column; gap: 1rem; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; overflow-y: auto;">
+            <h3 style="font-family: var(--display-font); color: var(--text-main); font-size: 1.25rem; margin-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">6-Step Demo Flow</h3>
+            
+            <div style="display: flex; gap: 0.75rem;">
+              <div style="background-color: var(--accent); color: #0f1013; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.875rem;">1</div>
+              <div>
+                <strong style="color: var(--text-main); font-size: 0.9375rem;">Model & File Limits</strong>
+                <p style="color: var(--text-muted); font-size: 0.8125rem; margin-top: 0.25rem;">Show the + button. Explain the strict chat limit: max 100 images or PDF pages per chat before needing to restart.</p>
+              </div>
+            </div>
+            
+            <div style="display: flex; gap: 0.75rem;">
+              <div style="background-color: var(--accent); color: #0f1013; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.875rem;">2</div>
+              <div>
+                <strong style="color: var(--text-main); font-size: 0.9375rem;">Voice & Quick Actions</strong>
+                <p style="color: var(--text-muted); font-size: 0.8125rem; margin-top: 0.25rem;">Show 'Press, hold, and record'. Explain 'Write', 'Strategize', and why we don't use 'Career Chat'.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+              <div style="background-color: var(--accent); color: #0f1013; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.875rem;">3</div>
+              <div>
+                <strong style="color: var(--text-main); font-size: 0.9375rem;">Organization & Privacy</strong>
+                <p style="color: var(--text-muted); font-size: 0.8125rem; margin-top: 0.25rem;">Explain that there's no need to delete chats, and clarify that Super Admins cannot read chats.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+              <div style="background-color: var(--accent); color: #0f1013; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.875rem;">4</div>
+              <div>
+                <strong style="color: var(--text-main); font-size: 0.9375rem;">Projects: Team vs Private</strong>
+                <p style="color: var(--text-muted); font-size: 0.8125rem; margin-top: 0.25rem;">Explain Team vs Private projects, and show how the 'Add to Project' button works in a chat.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+              <div style="background-color: var(--accent); color: #0f1013; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.875rem;">5</div>
+              <div>
+                <strong style="color: var(--text-main); font-size: 0.9375rem;">Artifacts Window</strong>
+                <p style="color: var(--text-muted); font-size: 0.8125rem; margin-top: 0.25rem;">Paste the prompt below to show how Claude creates documents in a clean, separate Artifact window.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+              <div style="background-color: var(--accent); color: #0f1013; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.875rem;">6</div>
+              <div>
+                <strong style="color: var(--text-main); font-size: 0.9375rem;">Customize & Next Week</strong>
+                <p style="color: var(--text-muted); font-size: 0.8125rem; margin-top: 0.25rem;">Show the Customize menu briefly and tease the Co-work desktop automations for next week.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resources Column -->
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <!-- Mock CSV Box -->
+            <div class="info-card" style="display: flex; flex-direction: column; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <h3 style="margin: 0; color: var(--text-main); font-size: 1rem; font-family: var(--display-font);">1. samsung_energy.csv</h3>
+                <button class="control-btn" id="copy-csv-btn" onclick="copyText('csv-data', 'copy-csv-btn')" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">📋 Copy CSV</button>
+              </div>
+              <pre id="csv-data" style="background-color: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.75rem; color: #e5e7eb; margin: 0; overflow-y: auto; max-height: 120px;">Month,Consumption_kWh,Grid_Cost_EUR,Solar_Generation_kWh
+January,12000,3600,200
+February,11000,3300,400
+March,9500,2850,800
+April,8000,2400,1200
+May,7000,2100,1600
+June,6500,1950,1800</pre>
+            </div>
+
+            <!-- Prompt Box -->
+            <div class="info-card" style="display: flex; flex-direction: column; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; flex: 1;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <h3 style="margin: 0; color: var(--text-main); font-size: 1rem; font-family: var(--display-font);">2. Artifact Generation Prompt</h3>
+                <button class="control-btn" id="copy-prompt-btn" onclick="copyText('prompt-data', 'copy-prompt-btn')" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">📋 Copy Prompt</button>
+              </div>
+              <div id="prompt-data" style="background-color: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.75rem; font-family: inherit; font-size: 0.8125rem; color: #e5e7eb; margin: 0; overflow-y: auto; line-height: 1.5; flex: 1;">Read this CSV file. Act as a senior energy consultant for Apollo. Create a professional Artifact document that summarizes the total grid cost and solar generation. 
+
+Format the output as a beautiful markdown document with a summary table and 3 bullet points for energy saving recommendations. Use a highly professional tone.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Footer / Controls -->
+  <div class="presentation-controls">
+    <button class="control-btn" id="prev-btn" onclick="prevSlide()" disabled>← Previous</button>
+    <div style="font-size: 0.8125rem; font-weight: 600; color: var(--text-muted);">
+      Slide <span id="slide-current-num">1</span> of 9
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+    <button class="control-btn" id="next-btn" onclick="nextSlide()">Next →</button>
+  </div>
+
+  <!-- JavaScript for Slide controls & hotspot details mapping -->
+  <script>
+    let currentSlide = 0;
+    const totalSlides = 9;
+
+    // Theme Toggle Logic
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+      if (document.body.classList.contains('light-theme')) {
+        themeToggle.innerHTML = '🌙 Dark Theme';
+      } else {
+        themeToggle.innerHTML = '☀️ Light Theme';
+      }
+    });
+
+    // Q&A Filter Logic
+    function filterQA(category) {
+      // Update active button style
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const items = document.querySelectorAll('.qa-item');
+      items.forEach(item => {
+        if (category === 'all' || item.getAttribute('data-category') === category) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Q&A Accordion Toggle
+    const qaQuestions = document.querySelectorAll('.qa-question');
+    qaQuestions.forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        item.classList.toggle('open');
+      });
+    });
+
+    // Navigation Controls
+    function updateSlideVisibility() {
+      const slides = document.querySelectorAll('.slide-content');
+      slides.forEach((slide, idx) => {
+        if (idx === currentSlide) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      // Update sidebar links
+      const links = document.querySelectorAll('.slide-link');
+      links.forEach((link, idx) => {
+        if (idx === currentSlide) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+
+      // Update control buttons
+      document.getElementById('prev-btn').disabled = (currentSlide === 0);
+      document.getElementById('next-btn').innerHTML = (currentSlide === totalSlides - 1) ? 'Finish' : 'Next →';
+      
+      // Update progress bar
+      const fillPercentage = ((currentSlide + 1) / totalSlides) * 100;
+      document.getElementById('progress-fill').style.width = fillPercentage + '%';
+      document.getElementById('slide-current-num').innerText = currentSlide + 1;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlideVisibility();
+      } else {
+        alert("Onboarding training complete! You are ready to start using Claude at Apollo.");
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlideVisibility();
+      }
+    }
+
+    function goToSlide(slideIndex) {
+      currentSlide = slideIndex;
+      updateSlideVisibility();
+    }
+
+    // Keyboard Shortcuts for Slide Navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+
+    // Hotspot Info Database
+    const hotspotData = {
+      sidebar: {
+        title: "Sidebar Controls",
+        desc: "Contains navigation shortcuts like New Chat, Projects, Artifacts Library, and Settings (Customize). Use the sidebar to pin critical projects or access your search history.",
+        tip: "Apollo Tip: Star the Samsung and recruitment projects so they are always pinned to the top of your sidebar."
+      },
+      'model-select': {
+        title: "Model Selector",
+        desc: "Displays the active AI model (e.g. Sonnet 5 Medium). Click it to change models mid-conversation. Both Sonnet and Opus models support 'Thinking Mode' for complex problem-solving.",
+        tip: "Apollo Tip: Keep it on Sonnet 5 Medium by default. Only switch to Opus 4.6 for legal review or complex calculations."
+      },
+      'text-input': {
+        title: "Main Prompt Box",
+        desc: "Type your query here. Press Enter to send, or Shift+Enter to create a new line. Supported language models parse markdown text and mathematical equations.",
+        tip: "Apollo Tip: Use XML tags (e.g., <data>...</data>) to keep your prompts structured and clean."
+      },
+      'attach-btn': {
+        title: "+ (Attachment Button)",
+        desc: "Used for attaching photos, PDFs, or CSV spreadsheets to your prompt. Unlike project files, files attached here are single-session only. You can also quickly access your Skills, Connectors, or Web Search.",
+        img: "assets/attachment_menu_ui.png",
+        tip: "Apollo Tip: Ensure all customer resumes or reviews are anonymized before attaching."
+      },
+      'voice-btn': {
+        title: "🎙️ Voice Input",
+        desc: "Dictate your prompts directly. Claude transcribes your spoken instructions into text in real time.",
+        tip: "Apollo Tip: Great for recording unstructured thoughts about client requirements or meeting notes."
+      },
+      'audio-btn': {
+        title: "🔊 Real-Time Audio Mode",
+        desc: "Start an interactive voice conversation with Claude. Speak naturally, and Claude will talk back. Real-time transcription is saved automatically.",
+        tip: "Apollo Tip: Perfect for practice calls, speech rehearsal, or interactive brainstorming."
+      },
+      'quick-actions': {
+        title: "Quick Action Buttons",
+        desc: "Specialized template buttons below the input box that pre-configure the AI context: <ul><li><strong>Write:</strong> Optimizes Claude for drafting emails, documents, or report summaries.</li><li><strong>Learn:</strong> configures Claude to explain terms, read reports, or teach concepts.</li><li><strong>Code:</strong> Opens the code editor context to write and debug scripts.</li><li><strong>Life stuff / Claude's choice:</strong> Casual suggestions (should be ignored for Apollo's corporate tasks).</li></ul>",
+        tip: "Apollo Tip: Click 'Write' before drafting a client energy proposal, or 'Learn' when analyzing raw EU energy regulations."
+      },
+      'search-tool': {
+        title: "🔍 Search Tool",
+        desc: "Located at the top of the sidebar. Lets you search across all past conversations, projects, and generated artifacts by keyword.",
+        tip: "Apollo Tip: Use keywords like the client name or report date to find past solutions in seconds."
+      },
+      'project-instructions': {
+        title: "Project Instructions (Custom Guidelines)",
+        desc: "Define custom directives and guidelines (up to 2,500 characters) that Claude will automatically follow in every chat within this project workspace.",
+        tip: "Apollo Tip: Set constraints like 'Maintain a professional consulting tone' or 'Format energy summaries in tables'."
+      },
+      'project-files': {
+        title: "Project Files (Context Knowledge)",
+        desc: "Upload reference documents, PDFs, or spreadsheet database files. Claude will use these files as background context to answer prompts.",
+        tip: "Apollo Tip: Upload candidate CVs (safe under Enterprise ZDR) or regional energy regulations here."
+      },
+      'project-chat-box': {
+        title: "Project-Specific Chat Thread",
+        desc: "Start new conversations here. Unlike general chats, dialogues started within a project folder automatically refer to the project's files and rules.",
+        tip: "Apollo Tip: Start a new project chat for each separate client task to keep the session context clean."
+      },
+      'project-checklist': {
+        title: "Get Started Checklist",
+        desc: "Interactive onboarding checklists in the left sidebar to configure settings, connect tools, or upgrade to Cowork automations.",
+        tip: "Apollo Tip: Use these checkpoints to quickly train new hires on how to sync their tools."
+      },
+      'project-navigation': {
+        title: "Workspace Navigation",
+        desc: "Breadcrumb navigation path (Projects / test) at the top of the interface. Click 'Projects' to return to your main projects dashboard.",
+        tip: "Apollo Tip: Click this path to quickly jump back and switch to another client's project."
+      },
+      'skills-settings': {
+        title: "Skills Settings",
+        desc: "Manage reusable automation scripts and instructions. Shows all created skills, their author, and the date they were last updated.",
+        tip: "Apollo Tip: Ensure the Energy Report Formatter skill is pinned here for all consultants."
+      },
+      'connectors-settings': {
+        title: "Connectors Integration",
+        desc: "Integrate third-party applications (Gmail, Drive, HubSpot, Figma) to let Claude read data directly.",
+        img: "assets/connectors_ui.png",
+        tip: "Apollo Tip: Connecting HubSpot lets Claude analyze lead status directly from your sales pipeline."
+      },
+      'plugins-settings': {
+        title: "Plugins Extensions",
+        desc: "Enable specialized add-ons like advanced spreadsheet analysis or translation plugins.",
+        img: "assets/plugins_ui.png",
+        tip: "Apollo Tip: Useful for translating reports between German, Greek, and English."
+      },
+      'skills-add': {
+        title: "Add Skill Dropdown",
+        desc: "Allows creating new skills. Choose between 'Create with Claude' (verbal interview), 'Write instructions' (manual), or 'Upload a skill' (import).",
+        tip: "Apollo Tip: Use 'Create with Claude' to quickly convert standard email routines into reusable tools."
+      }
+    };
+
+    function showHotspotInfo(key, hotspotNum) {
+      const data = hotspotData[key];
+      if (!data) return;
+
+      // Determine which details card to update based on active slide
+      let cardId = "chat-details-card";
+      if (currentSlide === 2) cardId = "projects-details-card";
+      if (currentSlide === 3) cardId = "customize-details-card";
+
+      let imgHtml = "";
+      if (data.img) {
+        imgHtml = `<img src="${data.img}" style="width: 100%; border-radius: 6px; border: 1px solid var(--border-color); margin-top: 0.75rem; max-height: 180px; object-fit: contain; background: #000;" alt="${data.title}">`;
+      }
+
+      const detailsCard = document.getElementById(cardId);
+      detailsCard.innerHTML = `
+        <div class="details-title">
+          <span style="background-color: var(--accent); color: #0f1013; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">${hotspotNum}</span>
+          ${data.title}
+        </div>
+        <div class="details-desc">${data.desc}</div>
+        ${imgHtml}
+        <div class="details-tip">${data.tip}</div>
+      `;
+    }
+
+    function copyText(id, btnId) {
+      const textElement = document.getElementById(id);
+      const text = textElement.tagName === 'PRE' ? textElement.innerText : textElement.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById(btnId);
+        const oldText = btn.innerText;
+        btn.innerText = '✓ Copied!';
+        btn.style.backgroundColor = '#10b981';
+        btn.style.color = '#fff';
+        setTimeout(() => {
+          btn.innerText = oldText;
+          btn.style.backgroundColor = '';
+          btn.style.color = '';
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
