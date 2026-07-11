@@ -1,123 +1,95 @@
 # Apollo Green Solutions — Employee Onboarding Automation
 
-Automated employee onboarding system built with Claude Enterprise for Apollo Green Solutions. When a new hire's details are added, the system generates a personalized onboarding package and delivers it via email — complete with Apollo branding, a first-week schedule, interactive checklist, and key contacts.
+Automated employee onboarding system for Apollo Green Solutions. When a new hire's details are provided, the system generates and delivers a personalized, branded welcome package via email.
+
+## Three Levels of Automation
+
+| Level | Method | Who Uses It | When |
+|---|---|---|---|
+| 🟢 **Quick** | Google Form → instant email | Alexandra / HR | Single new hire |
+| 🔵 **Batch** | CSV + Scheduler → Monday 09:00 | IT / HR | Multiple hires per month |
+| 🔴 **Full Auto** | Microsoft 365 API (Phase 2) | System | Zero human input |
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                  Claude Enterprise                   │
-│                                                      │
-│  ┌──────────────┐    ┌────────────────────────────┐  │
-│  │ Claude Skill │───▶│ Generate Onboarding Package│  │
-│  │ "Onboard: …" │    │ (Portal + HTML Email)      │  │
-│  └──────────────┘    └────────────┬───────────────┘  │
-│                                   │                  │
-└───────────────────────────────────┼──────────────────┘
-                                    │
-                                    ▼
-┌───────────────────────────────────────────────────────┐
-│              Python Automation Layer                   │
-│                                                        │
-│  new_employees.csv ──▶ schedule_onboarding.py          │
-│       (pending)              │                         │
-│                              ▼                         │
-│                    send_onboarding_email.py             │
-│                              │                         │
-│                              ▼                         │
-│                    SMTP (Outlook / Gmail)               │
-│                              │                         │
-│                              ▼                         │
-│                 ┌─────────────────────────┐             │
-│                 │  New Employee Inbox      │             │
-│                 │  📧 Branded HTML Email   │             │
-│                 └─────────────────────────┘             │
-└───────────────────────────────────────────────────────┘
+LEVEL 1 — QUICK (Google Form)
+┌──────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│ Google Form  │────▶│ Google Apps Script│────▶│ Employee Inbox  │
+│ (Alexandra)  │     │ (auto-trigger)   │     │ 📧 Branded HTML │
+└──────────────┘     └──────────────────┘     └─────────────────┘
+
+LEVEL 2 — BATCH (CSV + Scheduler)
+┌──────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│ CSV file     │────▶│ Python Scheduler │────▶│ Employee Inbox  │
+│ (add row)    │     │ (Monday 09:00)   │     │ 📧 Branded HTML │
+└──────────────┘     └──────────────────┘     └─────────────────┘
 ```
 
 ## File Structure
 
 ```
 onboarding-automation/
-├── SKILL.md                                  # Claude Skill definition
-├── README.md                                 # This file
-├── new_employees.csv                         # Input: add new hires here
+├── README.md
+├── SKILL.md                                  # Claude Enterprise Skill
+├── new_employees.csv                         # Input for batch processing
 ├── scripts/
-│   ├── send_onboarding_email.py              # Sends branded HTML email via SMTP
-│   └── schedule_onboarding.py                # Monitors CSV, auto-sends pending rows
+│   ├── send_onboarding_email.py              # SMTP email sender (Outlook/Gmail)
+│   └── schedule_onboarding.py                # CSV monitor + auto-sender
 ├── templates/
-│   ├── onboarding_email_template.html        # HTML email template (with placeholders)
+│   ├── onboarding_email_template.html        # HTML email template (placeholders)
 │   └── portal_template.html                  # Interactive onboarding portal
+├── google-apps-script/
+│   └── Code.gs                               # Google Form auto-trigger script
 ├── Maria_Schmidt_Onboarding_Email.html       # Sample output: email
 └── Maria_Schmidt_Onboarding_Portal.html      # Sample output: portal
 ```
 
-## Quick Start
+## Level 1: Google Form (Quick)
 
-### 1. Claude Skill (Interactive)
-In Claude Enterprise, trigger the skill by typing:
-```
-Onboard: Maria Schmidt, Junior Energy Consultant, Engineering, July 21 2026, Manager: Alexandra Xanthopoulos
-```
-Claude generates both the interactive portal artifact and the HTML email.
+1. Open the Google Form link (bookmarked)
+2. Fill in: Name, Role, Department, Start Date, Manager, Email
+3. Click Submit
+4. ✅ Branded welcome email sent instantly — zero code, zero commands
 
-### 2. Send Email (Manual)
+### Setup (one-time)
+1. Create a Google Form with 6 fields (Full Name, Role/Job Title, Department, Start Date, Manager Name, Employee Email)
+2. Link it to a Google Sheet (Responses → Sheets icon)
+3. In the Sheet: Extensions → Apps Script → paste `google-apps-script/Code.gs`
+4. Run `setupTrigger()` once → authorize permissions
+5. Done forever
+
+## Level 2: CSV Batch (Scheduler)
+
+Add new hires to `new_employees.csv`:
+```csv
+name,role,department,start_date,manager,email,status
+Maria Schmidt,Junior Energy Consultant,Engineering,2026-07-21,Alexandra Xanthopoulos,maria@apollo-gs.com,pending
+```
+
+Run manually or via cron:
 ```bash
-# Set SMTP credentials
+# Set credentials (one-time)
 export SMTP_HOST=smtp.office365.com
 export SMTP_PORT=587
 export SMTP_USER=hr@apollo-gs.com
 export SMTP_PASSWORD=your-app-password
 
-# Dry run (preview without sending)
-python scripts/send_onboarding_email.py \
-  --name "Maria Schmidt" \
-  --role "Junior Energy Consultant" \
-  --department "Engineering" \
-  --start-date "July 21, 2026" \
-  --manager "Alexandra Xanthopoulos" \
-  --to-email "maria.schmidt@apollo-gs.com" \
-  --provider o365 \
-  --dry-run
+# Single pass
+python3 scripts/schedule_onboarding.py --once --provider o365
 
-# Send for real (remove --dry-run)
-python scripts/send_onboarding_email.py \
-  --name "Maria Schmidt" \
-  --role "Junior Energy Consultant" \
-  --department "Engineering" \
-  --start-date "July 21, 2026" \
-  --manager "Alexandra Xanthopoulos" \
-  --to-email "maria.schmidt@apollo-gs.com" \
-  --provider o365
+# Auto Monday 09:00 (cron)
+0 9 * * 1 cd /path/to/onboarding-automation && python3 scripts/schedule_onboarding.py --once --provider o365
 ```
 
-### 3. Automated Batch (Scheduler)
-Add new hires to `new_employees.csv`:
-```csv
-name,role,department,start_date,manager,email,status
-Maria Schmidt,Junior Energy Consultant,Engineering,2026-07-21,Alexandra Xanthopoulos,maria.schmidt@apollo-gs.com,pending
-```
+## Email Content
 
-Run the scheduler:
-```bash
-# Single pass (for cron jobs)
-python scripts/schedule_onboarding.py --once --provider o365
-
-# Continuous loop (fires every Monday at 09:00)
-python scripts/schedule_onboarding.py --provider o365
-```
-
-Cron entry for Monday 09:00:
-```
-0 9 * * 1 cd /path/to/onboarding-automation && python3 scripts/schedule_onboarding.py --once --provider o365 >> scheduler_cron.log 2>&1
-```
-
-## SMTP Configuration
-
-| Provider | Host | Port | Notes |
-|---|---|---|---|
-| Microsoft 365 | `smtp.office365.com` | 587 | SMTP AUTH must be enabled by tenant admin |
-| Gmail | `smtp.gmail.com` | 587 | Requires App Password (2FA account) |
+Every welcome email includes:
+- 🏢 Company overview (mission, 3 pillars: Hardware, Software, Services)
+- 📅 Personalized first-week schedule (Day 1-5 with dates)
+- ✅ Onboarding checklist (10 items)
+- 👥 Key contacts (Manager, IT, HR, Office Manager)
+- 🎨 Apollo branding (#004d40, #1e7a4c, logo, responsive design)
 
 ## Brand Specs
 
@@ -130,12 +102,12 @@ Cron entry for Monday 09:00:
 | Logo | `https://www.apollo-gs.com/favicon.ico` |
 | Font | Helvetica, Arial, sans-serif |
 
-## Security Notes
+## Security
 
-- SMTP credentials are read from **environment variables only** — never hardcoded
-- The `--dry-run` flag renders the email locally without sending
-- All sent emails are logged to `sent_log.csv` with timestamps
-- The scheduler updates CSV row status from `pending` → `sent` or `failed`
+- SMTP credentials: environment variables only, never in code
+- `--dry-run` flag for previewing without sending
+- All sends logged to `sent_log.csv` with timestamps
+- Google Apps Script uses OAuth (no passwords stored)
 
 ---
 

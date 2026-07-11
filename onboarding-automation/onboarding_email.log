@@ -8,3 +8,11 @@
 2026-07-11 19:42:57 [INFO]   From:    (SMTP_USER not set)
 2026-07-11 19:42:57 [INFO]   To:      maria.schmidt@apollo-gs.com
 2026-07-11 19:42:57 [INFO]   Rendered HTML saved to: /Users/ummugulsun/Documents/antigravity/erasmus internship/onboarding-automation/scripts/preview_Maria_Schmidt.html
+2026-07-11 19:49:53 [INFO] Connecting to smtp.gmail.com:587 as ummugulsum1881@gmail.com
+2026-07-11 19:49:55 [INFO] Email sent successfully to ummugulsumkor58@gmail.com
+2026-07-11 19:57:25 [INFO] Connecting to smtp.gmail.com:587 as ummugulsum1881@gmail.com
+2026-07-11 19:57:26 [INFO] Email sent successfully to ummugulsunturkmen@gmail.com
+2026-07-11 20:12:55 [INFO] Connecting to smtp.gmail.com:587 as ummugulsum1881@gmail.com
+2026-07-11 20:12:56 [ERROR] SMTP authentication failed: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-47a9e4d6e4csm66614630f8f.10 - gsmtp'). For Gmail, use an App Password. For Microsoft 365, confirm SMTP AUTH is enabled for this mailbox.
+2026-07-11 20:13:53 [INFO] Connecting to smtp.gmail.com:587 as ummugulsum1881@gmail.com
+2026-07-11 20:13:54 [INFO] Email sent successfully to ummugulsumkor58@gmail.com

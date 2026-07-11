@@ -2,3 +2,11 @@
 2026-07-11 19:42:57 [INFO] Processing Maria Schmidt <maria.schmidt@apollo-gs.com> [dry-run]
 2026-07-11 19:42:57 [INFO] Success for Maria Schmidt.
 2026-07-11 19:42:57 [INFO] Batch complete. 1 email(s) processed successfully.
+2026-07-11 20:12:55 [INFO] Found 1 pending row(s) to process.
+2026-07-11 20:12:55 [INFO] Processing Ahmet Yilmaz <ummugulsumkor58@gmail.com>
+2026-07-11 20:12:56 [ERROR] send_onboarding_email.py failed for Ahmet Yilmaz: 2026-07-11 20:12:56 [ERROR] SMTP authentication failed: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-47a9e4d6e4csm66614630f8f.10 - gsmtp'). For Gmail, use an App Password. For Microsoft 365, confirm SMTP AUTH is enabled for this mailbox.
+2026-07-11 20:12:56 [INFO] Batch complete. 0 email(s) processed successfully.
+2026-07-11 20:13:53 [INFO] Found 1 pending row(s) to process.
+2026-07-11 20:13:53 [INFO] Processing Ahmet Yilmaz <ummugulsumkor58@gmail.com>
+2026-07-11 20:13:54 [INFO] Success for Ahmet Yilmaz.
+2026-07-11 20:13:54 [INFO] Batch complete. 1 email(s) processed successfully.
