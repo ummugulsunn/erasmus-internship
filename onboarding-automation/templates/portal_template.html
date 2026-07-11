@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Apollo Green Solutions | Onboarding Portal — {{NAME}}</title>
+<style>
+  :root{
+    --green-dark:#004d40;
+    --green:#1e7a4c;
+    --green-mid:#2fa46a;
+    --green-light:#e6f5ec;
+    --white:#ffffff;
+    --gray:#5b6b64;
+    --gray-light:#f2f6f4;
+    --border:#d7e8de;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:Helvetica,Arial,sans-serif;background:var(--gray-light);color:#1f2b26;}
+  .header{background:linear-gradient(135deg,var(--green-dark),var(--green));color:var(--white);padding:36px 48px;}
+  .header .brand{display:flex;align-items:center;gap:12px;font-size:14px;letter-spacing:2px;text-transform:uppercase;opacity:0.85;margin-bottom:14px;}
+  .leaf{width:22px;height:22px;background:var(--white);border-radius:0 60% 0 60%;display:inline-block;}
+  .header h1{margin:0 0 6px 0;font-size:30px;}
+  .header p{margin:0;opacity:0.9;font-size:15px;}
+  .progress-wrap{max-width:1000px;margin:-22px auto 0;padding:0 24px;}
+  .progress-card{background:var(--white);border-radius:12px;box-shadow:0 8px 24px rgba(0,77,64,0.12);padding:18px 24px;display:flex;align-items:center;gap:20px;}
+  .progress-card .label{font-size:14px;font-weight:600;color:var(--green-dark);min-width:170px;}
+  .progress-bar-bg{flex:1;height:12px;background:var(--border);border-radius:10px;overflow:hidden;}
+  .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--green-mid),var(--green));width:0%;transition:width 0.35s ease;border-radius:10px;}
+  .progress-pct{font-weight:700;color:var(--green);min-width:44px;text-align:right;}
+  .container{max-width:1000px;margin:32px auto 60px;padding:0 24px;display:flex;flex-direction:column;gap:24px;}
+  .card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:28px 30px;box-shadow:0 2px 10px rgba(0,77,64,0.05);}
+  .card h2{margin:0 0 16px 0;font-size:19px;color:var(--green-dark);display:flex;align-items:center;gap:10px;}
+  .card h2 .dot{width:10px;height:10px;background:var(--green-mid);border-radius:50%;display:inline-block;}
+  .email-box{background:var(--green-light);border-left:4px solid var(--green);border-radius:8px;padding:20px 22px;font-size:14.5px;line-height:1.7;}
+  .email-box .meta{font-size:12.5px;color:var(--gray);margin-bottom:14px;padding-bottom:10px;border-bottom:1px dashed var(--border);}
+  .email-box .meta div{margin-bottom:2px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .info-block h3{margin:0 0 6px 0;font-size:13.5px;text-transform:uppercase;letter-spacing:0.5px;color:var(--green);}
+  .info-block p{margin:0;font-size:14.5px;color:#3a453f;line-height:1.5;}
+  .services{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+  .pill{background:var(--green-light);color:var(--green-dark);font-size:13px;padding:6px 12px;border-radius:20px;font-weight:600;}
+  table.schedule{width:100%;border-collapse:collapse;font-size:14px;}
+  table.schedule th{text-align:left;background:var(--green-light);color:var(--green-dark);padding:10px 12px;font-size:12.5px;text-transform:uppercase;letter-spacing:0.4px;}
+  table.schedule td{padding:12px 12px;border-bottom:1px solid var(--border);vertical-align:top;}
+  table.schedule tr:last-child td{border-bottom:none;}
+  .day-tag{display:inline-block;background:var(--green);color:var(--white);font-weight:700;font-size:12px;padding:4px 9px;border-radius:6px;white-space:nowrap;}
+  ul.tasklist{list-style:none;margin:0;padding:0;}
+  ul.tasklist li{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid var(--border);font-size:14.5px;}
+  ul.tasklist li:last-child{border-bottom:none;}
+  ul.tasklist input[type=checkbox]{width:19px;height:19px;accent-color:var(--green);cursor:pointer;flex-shrink:0;}
+  ul.tasklist label{cursor:pointer;flex:1;}
+  ul.tasklist li.done label{color:var(--gray);text-decoration:line-through;}
+  .contacts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .contact-card{background:var(--gray-light);border:1px solid var(--border);border-radius:10px;padding:16px 18px;}
+  .contact-card .role{font-size:12px;text-transform:uppercase;letter-spacing:0.5px;color:var(--green);font-weight:700;margin-bottom:4px;}
+  .contact-card .name{font-size:15px;font-weight:600;color:var(--green-dark);margin-bottom:2px;}
+  .contact-card .email{font-size:13.5px;color:var(--gray);}
+  .footer-note{text-align:center;color:var(--gray);font-size:12.5px;padding:10px 0 30px;}
+  @media (max-width:640px){.grid-2, .contacts-grid{grid-template-columns:1fr;}.header{padding:28px 20px;}.container{padding:0 16px;}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand"><span class="leaf"></span> Apollo Green Solutions</div>
+  <h1>Welcome aboard, {{NAME}}!</h1>
+  <p>Onboarding Portal · {{ROLE}} · {{DEPARTMENT}} · Starts {{START_DATE}}</p>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-card">
+    <div class="label">Onboarding progress</div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <div class="progress-pct" id="progressPct">0%</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2><span class="dot"></span> Welcome Email</h2>
+    <div class="email-box">
+      <div class="meta">
+        <div><strong>From:</strong> {{MANAGER}}, People &amp; Operations — Apollo Green Solutions</div>
+        <div><strong>To:</strong> {{NAME}}</div>
+        <div><strong>Subject:</strong> Welcome to Apollo Green Solutions, {{NAME}}!</div>
+      </div>
+      <p>Dear {{NAME}},</p>
+      <p>On behalf of everyone at Apollo Green Solutions, welcome to the team! We're delighted to have you join us as a <strong>{{ROLE}}</strong> in our {{DEPARTMENT}} department, starting <strong>{{START_DATE}}</strong>.</p>
+      <p>Apollo Green Solutions helps commercial and industrial clients across Germany and the EU transition to sustainable, compliant, and cost-effective energy systems. You're joining us at an exciting time as we expand our reach across the continent.</p>
+      <p>In your first week, you'll get your systems set up, meet the team, tour the office, and start getting familiar with our tools, processes, and current projects. Nothing is expected of you on day one except to settle in and ask questions — lots of them.</p>
+      <p>Your point of contact for anything you need is your manager, <strong>{{MANAGER}}</strong> (<a href="mailto:{{MANAGER_EMAIL}}">{{MANAGER_EMAIL}}</a>), who will meet with you on your first morning.</p>
+      <p>We're genuinely excited to see the impact you'll make here. Welcome to Apollo!</p>
+      <p>Warm regards,<br><strong>{{MANAGER}}</strong><br>People &amp; Operations, Apollo Green Solutions</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="dot"></span> Company Overview</h2>
+    <div class="grid-2">
+      <div class="info-block"><h3>Mission</h3><p>Helping businesses transition to sustainable energy solutions.</p></div>
+      <div class="info-block"><h3>Vision</h3><p>Leading the green energy transition in Europe.</p></div>
+      <div class="info-block"><h3>Key Markets</h3><p>Germany, the EU, and expanding internationally.</p></div>
+      <div class="info-block"><h3>Team Structure</h3><p>Operations, Sales, Engineering, and HR.</p></div>
+    </div>
+    <div class="info-block" style="margin-top:18px;">
+      <h3>Core Services</h3>
+      <div class="services">
+        <span class="pill">Energy Audits</span>
+        <span class="pill">Regulatory Compliance (EU &amp; GEG)</span>
+        <span class="pill">Renewable Energy Planning</span>
+        <span class="pill">Sustainability Reporting</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="dot"></span> First-Week Schedule</h2>
+    <table class="schedule">
+      <tr><th>Day</th><th>Focus</th></tr>
+      <tr><td><span class="day-tag">Day 1</span><br>{{DAY1_DATE}}</td><td>IT setup (email, Teams, tools access), welcome meeting with {{MANAGER}}, office tour.</td></tr>
+      <tr><td><span class="day-tag">Day 2</span><br>{{DAY2_DATE}}</td><td>Company culture &amp; values session, introductions to team members, review of internal tools.</td></tr>
+      <tr><td><span class="day-tag">Day 3</span><br>{{DAY3_DATE}}</td><td>Role-specific training, shadow a senior colleague, review ongoing {{DEPARTMENT}} projects.</td></tr>
+      <tr><td><span class="day-tag">Day 4</span><br>{{DAY4_DATE}}</td><td>Deep dive into company processes, CRM walkthrough, first small task assignment.</td></tr>
+      <tr><td><span class="day-tag">Day 5</span><br>{{DAY5_DATE}}</td><td>End-of-week check-in with {{MANAGER}}, feedback session, goals set for Week 2.</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2><span class="dot"></span> Task Checklist</h2>
+    <ul class="tasklist" id="taskList">
+      <li><input type="checkbox" id="t1"><label for="t1">Receive and activate company email</label></li>
+      <li><input type="checkbox" id="t2"><label for="t2">Set up Microsoft Teams profile</label></li>
+      <li><input type="checkbox" id="t3"><label for="t3">Complete IT security training</label></li>
+      <li><input type="checkbox" id="t4"><label for="t4">Read company handbook</label></li>
+      <li><input type="checkbox" id="t5"><label for="t5">Set up CRM access</label></li>
+      <li><input type="checkbox" id="t6"><label for="t6">Meet with direct manager ({{MANAGER}})</label></li>
+      <li><input type="checkbox" id="t7"><label for="t7">Meet team members (minimum 3 intro meetings)</label></li>
+      <li><input type="checkbox" id="t8"><label for="t8">Review current project portfolio</label></li>
+      <li><input type="checkbox" id="t9"><label for="t9">Submit signed employment documents to HR</label></li>
+      <li><input type="checkbox" id="t10"><label for="t10">Set up development / technical environment</label></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="dot"></span> Key Contacts</h2>
+    <div class="contacts-grid">
+      <div class="contact-card"><div class="role">Manager</div><div class="name">{{MANAGER}}</div><div class="email">{{MANAGER_EMAIL}}</div></div>
+      <div class="contact-card"><div class="role">IT Support</div><div class="name">IT Helpdesk</div><div class="email">it-support@apollo-gs.com</div></div>
+      <div class="contact-card"><div class="role">HR</div><div class="name">People &amp; Operations</div><div class="email">hr@apollo-gs.com</div></div>
+      <div class="contact-card"><div class="role">Office Manager</div><div class="name">Facilities &amp; Logistics</div><div class="email">office@apollo-gs.com</div></div>
+    </div>
+  </div>
+
+  <div class="footer-note">Apollo Green Solutions · Onboarding Portal · Generated for {{NAME}}, {{GENERATED_DATE}}</div>
+
+</div>
+
+<script>
+  const checkboxes = document.querySelectorAll('#taskList input[type=checkbox]');
+  const fill = document.getElementById('progressFill');
+  const pct = document.getElementById('progressPct');
+  const STORAGE_KEY = 'apollo_onboarding_{{NAME_SLUG}}';
+
+  function loadState(){
+    try{
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      checkboxes.forEach(cb => { if(saved[cb.id]) cb.checked = true; });
+    }catch(e){}
+  }
+  function saveState(){
+    const state = {};
+    checkboxes.forEach(cb => state[cb.id] = cb.checked);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+  function updateProgress(){
+    const total = checkboxes.length;
+    const done = Array.from(checkboxes).filter(cb => cb.checked).length;
+    const percent = Math.round((done/total)*100);
+    fill.style.width = percent + '%';
+    pct.textContent = percent + '%';
+    checkboxes.forEach(cb => cb.closest('li').classList.toggle('done', cb.checked));
+  }
+  checkboxes.forEach(cb => cb.addEventListener('change', () => { saveState(); updateProgress(); }));
+  loadState();
+  updateProgress();
+</script>
+
+</body>
+</html>

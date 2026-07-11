@@ -1,0 +1,10 @@
+2026-07-11 19:42:50 [INFO] [DRY RUN] Would send email:
+2026-07-11 19:42:50 [INFO]   Subject: Welcome to Apollo Green Solutions — Your Onboarding Guide
+2026-07-11 19:42:50 [INFO]   From:    (SMTP_USER not set)
+2026-07-11 19:42:50 [INFO]   To:      maria.schmidt@apollo-gs.com
+2026-07-11 19:42:50 [INFO]   Rendered HTML saved to: /Users/ummugulsun/Documents/antigravity/erasmus internship/onboarding-automation/scripts/preview_Maria_Schmidt.html
+2026-07-11 19:42:57 [INFO] [DRY RUN] Would send email:
+2026-07-11 19:42:57 [INFO]   Subject: Welcome to Apollo Green Solutions — Your Onboarding Guide
+2026-07-11 19:42:57 [INFO]   From:    (SMTP_USER not set)
+2026-07-11 19:42:57 [INFO]   To:      maria.schmidt@apollo-gs.com
+2026-07-11 19:42:57 [INFO]   Rendered HTML saved to: /Users/ummugulsun/Documents/antigravity/erasmus internship/onboarding-automation/scripts/preview_Maria_Schmidt.html
