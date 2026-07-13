@@ -765,7 +765,7 @@
               <div class="hotspot" style="top: 28%; left: 80%;" onclick="showHotspotInfo('project-instructions', 1)">1</div>
               <div class="hotspot" style="top: 45%; left: 80%;" onclick="showHotspotInfo('project-files', 2)">2</div>
               <div class="hotspot" style="top: 30%; left: 45%;" onclick="showHotspotInfo('project-chat-box', 3)">3</div>
-              <div class="hotspot" style="top: 70%; left: 15%;" onclick="showHotspotInfo('project-checklist', 4)">4</div>
+              <div class="hotspot" style="top: 50%; left: 6%;" onclick="showHotspotInfo('project-sidebar-navigation', 4)">4</div>
               <div class="hotspot" style="top: 7%; left: 32%;" onclick="showHotspotInfo('project-navigation', 5)">5</div>
             </div>
           </div>
@@ -920,7 +920,7 @@
               <div class="qa-question">9. What privacy settings apply to my chats and uploaded documents?</div>
               <div class="qa-answer">
                 Under Apollo's Enterprise plan, Anthropic enforces <strong>Zero Data Retention (ZDR)</strong>. Your chats, prompts, and uploaded documents are encrypted and <strong>never used to train Anthropic's models</strong>. 
-                <br><em>Admin Visibility:</em> <strong>Super admins cannot see the content of your chats.</strong> They only see activity logs (e.g. login times, file names uploaded). You can ask private questions freely.
+                <br><em>Admin Visibility:</em> <strong>Primary Owners (workspace admins) can export organization-wide data (including full chat history) for compliance and auditing.</strong> Therefore, treat your corporate account as a monitored work system and avoid posting personal information. However, there is no real-time message surveillance screen, allowing you to collaborate freely on work tasks.
               </div>
             </div>
             <!-- Q10 -->
@@ -1117,7 +1117,7 @@
               <div style="background-color: var(--accent); color: #0f1013; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.875rem;">3</div>
               <div>
                 <strong style="color: var(--text-main); font-size: 0.9375rem;">Organization & Privacy</strong>
-                <p style="color: var(--text-muted); font-size: 0.8125rem; margin-top: 0.25rem;">Explain that there's no need to delete chats, and clarify that Super Admins cannot read chats.</p>
+                <p style="color: var(--text-muted); font-size: 0.8125rem; margin-top: 0.25rem;">Explain that there's no need to delete chats, and explain that Primary Owners can export logs for compliance.</p>
               </div>
             </div>
 
@@ -1356,10 +1356,10 @@ Format the output as a beautiful markdown document with a summary table and 3 bu
         desc: "Start new conversations here. Unlike general chats, dialogues started within a project folder automatically refer to the project's files and rules.",
         tip: "Apollo Tip: Start a new project chat for each separate client task to keep the session context clean."
       },
-      'project-checklist': {
-        title: "Get Started Checklist",
-        desc: "Interactive onboarding checklists in the left sidebar to configure settings, connect tools, or upgrade to Cowork automations.",
-        tip: "Apollo Tip: Use these checkpoints to quickly train new hires on how to sync their tools."
+      'project-sidebar-navigation': {
+        title: "Sidebar Navigation",
+        desc: "The left sidebar allows you to quickly switch between the Home dashboard, general chats, your active Projects, Artifacts, and Customize settings.",
+        tip: "Apollo Tip: Use the Projects tab to view all shared team workspaces or switch between client folders."
       },
       'project-navigation': {
         title: "Workspace Navigation",

@@ -6,20 +6,26 @@ Automated employee onboarding system for Apollo Green Solutions. When a new hire
 
 | Level | Method | Who Uses It | When |
 |---|---|---|---|
-| 🟢 **Quick** | Google Form → instant email | Alexandra / HR | Single new hire |
-| 🔵 **Batch** | CSV + Scheduler → Monday 09:00 | IT / HR | Multiple hires per month |
-| 🔴 **Full Auto** | Microsoft 365 API (Phase 2) | System | Zero human input |
+| 🟢 **Claude Chat** | Tell Claude → MCP sends email | Alexandra / HR | Primary usage |
+| 🔵 **Google Form** | Fill form → instant email | Alexandra / HR | Quick one-off |
+| 🟠 **CSV Batch** | Add to spreadsheet → Monday auto-send | IT / HR | Multiple hires |
 
 ## Architecture
 
 ```
-LEVEL 1 — QUICK (Google Form)
+LEVEL 1 — CLAUDE CHAT (Primary)
 ┌──────────────┐     ┌──────────────────┐     ┌─────────────────┐
-│ Google Form  │────▶│ Google Apps Script│────▶│ Employee Inbox  │
-│ (Alexandra)  │     │ (auto-trigger)   │     │ 📧 Branded HTML │
+│ Claude Chat  │────▶│ MCP Email Server │────▶│ Employee Inbox  │
+│ "Onboard..." │     │ (Node.js + SMTP) │     │ 📧 Branded HTML │
 └──────────────┘     └──────────────────┘     └─────────────────┘
 
-LEVEL 2 — BATCH (CSV + Scheduler)
+LEVEL 2 — GOOGLE FORM (Quick)
+┌──────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│ Google Form  │────▶│ Google Apps Script│────▶│ Employee Inbox  │
+│ (fill & go)  │     │ (auto-trigger)   │     │ 📧 Branded HTML │
+└──────────────┘     └──────────────────┘     └─────────────────┘
+
+LEVEL 3 — CSV BATCH (Scheduled)
 ┌──────────────┐     ┌──────────────────┐     ┌─────────────────┐
 │ CSV file     │────▶│ Python Scheduler │────▶│ Employee Inbox  │
 │ (add row)    │     │ (Monday 09:00)   │     │ 📧 Branded HTML │
