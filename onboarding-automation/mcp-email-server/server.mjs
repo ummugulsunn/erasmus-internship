@@ -114,7 +114,13 @@ body{margin:0;padding:0;width:100%!important;background-color:#f2f6f4}a{text-dec
 <tr><td style="padding:7px 0;border-bottom:1px solid #eef3f0;"><span style="color:#1e7a4c;font-size:15px;">☐</span>&nbsp;&nbsp;Review current project portfolio</td></tr>
 <tr><td style="padding:7px 0;border-bottom:1px solid #eef3f0;"><span style="color:#1e7a4c;font-size:15px;">☐</span>&nbsp;&nbsp;Submit signed employment documents to HR</td></tr>
 <tr><td style="padding:7px 0;"><span style="color:#1e7a4c;font-size:15px;">☐</span>&nbsp;&nbsp;Set up development / technical environment</td></tr>
-</table></td></tr>
+</table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:24px;">
+<tr><td align="left">
+<a href="https://apollo-gs.com" style="display:inline-block;background-color:#1e7a4c;color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:15px;font-weight:bold;text-decoration:none;padding:12px 24px;border-radius:6px;">Open Interactive Checklist</a>
+</td></tr>
+</table>
+</td></tr>
 
 <tr><td style="padding:24px 36px 0 36px;"><div style="border-top:1px solid #e2ece7;"></div></td></tr>
 
@@ -122,24 +128,24 @@ body{margin:0;padding:0;width:100%!important;background-color:#f2f6f4}a{text-dec
 <div style="font-family:Helvetica,Arial,sans-serif;color:#004d40;font-size:17px;font-weight:bold;margin-bottom:14px;">Key Contacts</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-<td class="stack-col" width="50%" valign="top" style="padding:0 8px 16px 0;"><table role="presentation" width="100%" style="background-color:#f2f6f4;border-radius:8px;"><tr><td style="padding:14px 16px;font-family:Helvetica,Arial,sans-serif;">
+<td class="stack-col" width="50%" valign="top" style="padding:0 8px 16px 0;"><table role="presentation" width="100%" height="90" style="background-color:#f2f6f4;border-radius:8px;"><tr><td valign="top" style="padding:14px 16px;font-family:Helvetica,Arial,sans-serif;height:75px;">
 <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.4px;color:#1e7a4c;font-weight:bold;">Manager</div>
 <div style="font-size:14px;font-weight:bold;color:#004d40;margin-top:2px;">${manager}</div>
 <div style="font-size:13px;color:#5b6b64;margin-top:1px;">${managerEmail}</div>
 </td></tr></table></td>
-<td class="stack-col" width="50%" valign="top" style="padding:0 0 16px 8px;"><table role="presentation" width="100%" style="background-color:#f2f6f4;border-radius:8px;"><tr><td style="padding:14px 16px;font-family:Helvetica,Arial,sans-serif;">
+<td class="stack-col" width="50%" valign="top" style="padding:0 0 16px 8px;"><table role="presentation" width="100%" height="90" style="background-color:#f2f6f4;border-radius:8px;"><tr><td valign="top" style="padding:14px 16px;font-family:Helvetica,Arial,sans-serif;height:75px;">
 <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.4px;color:#1e7a4c;font-weight:bold;">IT Support</div>
 <div style="font-size:14px;font-weight:bold;color:#004d40;margin-top:2px;">IT Helpdesk</div>
 <div style="font-size:13px;color:#5b6b64;margin-top:1px;">it-support@apollo-gs.com</div>
 </td></tr></table></td>
 </tr>
 <tr>
-<td class="stack-col" width="50%" valign="top" style="padding:0 8px 0 0;"><table role="presentation" width="100%" style="background-color:#f2f6f4;border-radius:8px;"><tr><td style="padding:14px 16px;font-family:Helvetica,Arial,sans-serif;">
+<td class="stack-col" width="50%" valign="top" style="padding:0 8px 0 0;"><table role="presentation" width="100%" height="90" style="background-color:#f2f6f4;border-radius:8px;"><tr><td valign="top" style="padding:14px 16px;font-family:Helvetica,Arial,sans-serif;height:75px;">
 <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.4px;color:#1e7a4c;font-weight:bold;">HR</div>
 <div style="font-size:14px;font-weight:bold;color:#004d40;margin-top:2px;">People & Operations</div>
 <div style="font-size:13px;color:#5b6b64;margin-top:1px;">hr@apollo-gs.com</div>
 </td></tr></table></td>
-<td class="stack-col" width="50%" valign="top" style="padding:0 0 0 8px;"><table role="presentation" width="100%" style="background-color:#f2f6f4;border-radius:8px;"><tr><td style="padding:14px 16px;font-family:Helvetica,Arial,sans-serif;">
+<td class="stack-col" width="50%" valign="top" style="padding:0 0 0 8px;"><table role="presentation" width="100%" height="90" style="background-color:#f2f6f4;border-radius:8px;"><tr><td valign="top" style="padding:14px 16px;font-family:Helvetica,Arial,sans-serif;height:75px;">
 <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.4px;color:#1e7a4c;font-weight:bold;">Office Manager</div>
 <div style="font-size:14px;font-weight:bold;color:#004d40;margin-top:2px;">Facilities & Logistics</div>
 <div style="font-size:13px;color:#5b6b64;margin-top:1px;">office@apollo-gs.com</div>
