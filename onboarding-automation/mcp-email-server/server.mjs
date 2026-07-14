@@ -117,7 +117,7 @@ body{margin:0;padding:0;width:100%!important;background-color:#f2f6f4}a{text-dec
 </table>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:24px;">
 <tr><td align="left">
-<a href="https://apollo-gs.com" style="display:inline-block;background-color:#1e7a4c;color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:15px;font-weight:bold;text-decoration:none;padding:12px 24px;border-radius:6px;">Open Interactive Checklist</a>
+<a href="https://onboarding.apollo-gs.com/welcome/${name.split(' ')[0].toLowerCase()}" style="display:inline-block;background-color:#1e7a4c;color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:15px;font-weight:bold;text-decoration:none;padding:12px 24px;border-radius:6px;">Open Interactive Checklist</a>
 </td></tr>
 </table>
 </td></tr>
