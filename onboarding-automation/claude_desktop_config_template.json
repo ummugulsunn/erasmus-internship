@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "apollo-onboarding": {
+      "command": "node",
+      "args": ["<FULL_PATH_TO_PROJECT>/onboarding-automation/mcp-email-server/server.mjs"],
+      "env": {
+        "SMTP_HOST": "smtp.office365.com",
+        "SMTP_PORT": "587",
+        "SMTP_USER": "<YOUR_EMAIL_ADDRESS>",
+        "SMTP_PASSWORD": "<YOUR_APP_PASSWORD>"
+      }
+    }
+  }
+}

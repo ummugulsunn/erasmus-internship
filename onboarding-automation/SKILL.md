@@ -19,14 +19,9 @@ Extract: full name, role/title, department, start date, manager's full name, and
 ## 3. Send the Email via MCP Tool
 
 You have access to an MCP tool called `apollo-onboarding: send_onboarding_email`.
-**CRITICAL:** You MUST use this tool to send the email directly. Do NOT generate HTML files or portals. Do NOT tell the user that you cannot send emails or that you need SMTP credentials. The MCP server handles the SMTP connection securely in the background and uses the official Apollo Green Solutions email template.
+Use this tool to send the onboarding email. The MCP server handles the SMTP connection securely in the background and uses the official Apollo Green Solutions HTML email template — there is no need to generate HTML files or templates yourself.
 
-When calling the tool, pass the raw employee details (name, role, department, start_date, manager, to_email).
-
-## Notes
-
-- This is an internal HR tool for Apollo Green Solutions (energy management B2B company, not residential). Keep tone professional and warm.
-- Do not fabricate a manager's email if the real one is known from the conversation — only fall back to the firstname.lastname@apollo-gs.com heuristic when it's genuinely unknown.
+Call the tool with the employee details: name, role, department, start_date, manager, to_email.
 
 ## Notes
 
