@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{NAME}} — Apollo Onboarding Experience</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    font-family: Helvetica, Arial, sans-serif;
+    background-color: #f2f6f4;
+    color: #1f2b26;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 32px 16px 60px; }
+  .card {
+    background: #ffffff;
+    border: 1px solid #dfe9e4;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .header { background-color: #004d40; padding: 28px 36px; color: #ffffff; }
+  .eyebrow { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; margin-bottom: 6px; }
+  .title { font-size: 24px; font-weight: bold; line-height: 1.3; }
+  .subtitle { font-size: 14px; opacity: 0.85; margin-top: 6px; }
+
+  /* Overall journey progress */
+  .journey { padding: 22px 36px; background: #f7faf8; border-bottom: 1px solid #e2ece7; }
+  .journey-label { display: flex; justify-content: space-between; font-size: 13px; color: #5b6b64; margin-bottom: 8px; }
+  .journey-track { background: #eef3f0; border-radius: 999px; height: 10px; overflow: hidden; }
+  .journey-fill { background: #1e7a4c; height: 100%; border-radius: 999px; transition: width 0.35s ease; width: 0%; }
+  .badges { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .badge {
+    font-size: 11.5px; font-weight: bold; padding: 5px 10px; border-radius: 999px;
+    background: #eef3f0; color: #8a978f; border: 1px solid #dfe9e4;
+  }
+  .badge.done { background: #e6f5ec; color: #12513a; border-color: #bfe3cd; }
+
+  /* Tabs */
+  .tabs { display: flex; border-bottom: 1px solid #e2ece7; }
+  .tab {
+    flex: 1; text-align: center; padding: 14px 8px; font-size: 13.5px; font-weight: bold;
+    color: #5b6b64; cursor: pointer; border-bottom: 3px solid transparent; user-select: none;
+  }
+  .tab.active { color: #004d40; border-bottom-color: #1e7a4c; }
+  .panel { display: none; padding: 28px 36px 36px; }
+  .panel.active { display: block; }
+
+  .section-title { color: #004d40; font-size: 17px; font-weight: bold; margin: 0 0 6px; }
+  .section-sub { font-size: 13.5px; color: #5b6b64; margin: 0 0 18px; }
+
+  /* Checklist (reused) */
+  .progress-label { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; color: #5b6b64; margin-bottom: 8px; }
+  .progress-count { color: #004d40; font-weight: bold; }
+  .progress-track { background: #eef3f0; border-radius: 999px; height: 10px; overflow: hidden; margin-bottom: 22px; }
+  .progress-fill { background: #1e7a4c; height: 100%; border-radius: 999px; transition: width 0.35s ease; width: 0%; }
+  ul.checklist { list-style: none; margin: 0; padding: 0; }
+  ul.checklist li { border-bottom: 1px solid #eef3f0; }
+  ul.checklist li:last-child { border-bottom: none; }
+  .item-label { display: flex; align-items: center; gap: 12px; padding: 12px 4px; cursor: pointer; font-size: 14.5px; line-height: 1.4; user-select: none; }
+  .item-label input { display: none; }
+  .box { flex: 0 0 20px; width: 20px; height: 20px; border-radius: 5px; border: 2px solid #1e7a4c; display: flex; align-items: center; justify-content: center; transition: background-color 0.15s ease; }
+  .box svg { width: 12px; height: 12px; opacity: 0; }
+  input:checked + .box { background-color: #1e7a4c; }
+  input:checked + .box svg { opacity: 1; }
+  input:checked ~ .item-text { color: #8a978f; text-decoration: line-through; opacity: 0.75; }
+
+  /* Quiz */
+  .q-block { margin-bottom: 22px; padding-bottom: 20px; border-bottom: 1px solid #eef3f0; }
+  .q-block:last-of-type { border-bottom: none; }
+  .q-text { font-size: 14.5px; font-weight: bold; color: #1f2b26; margin-bottom: 10px; }
+  .q-options { display: flex; flex-direction: column; gap: 8px; }
+  .q-option {
+    border: 1.5px solid #dfe9e4; border-radius: 7px; padding: 10px 14px; font-size: 13.5px;
+    cursor: pointer; transition: all 0.12s ease;
+  }
+  .q-option:hover { border-color: #1e7a4c; }
+  .q-option.selected { border-color: #004d40; background: #f2f6f4; }
+  .q-option.correct { border-color: #1e7a4c; background: #e6f5ec; color: #12513a; font-weight: bold; }
+  .q-option.incorrect { border-color: #c85c5c; background: #fbeaea; color: #8a2f2f; }
+  .q-option.disabled { pointer-events: none; }
+  .quiz-result {
+    display: none; margin-top: 8px; padding: 16px 18px; border-radius: 8px;
+    background: #e6f5ec; border: 1px solid #bfe3cd; color: #12513a; font-weight: bold; font-size: 14px;
+  }
+  .quiz-result.show { display: block; }
+  .btn {
+    display: inline-block; background: #1e7a4c; color: #fff; border: none; border-radius: 6px;
+    padding: 11px 20px; font-size: 13.5px; font-weight: bold; cursor: pointer; margin-top: 6px;
+  }
+  .btn:hover { background: #166139; }
+  .btn.secondary { background: #ffffff; color: #004d40; border: 1.5px solid #dfe9e4; }
+
+  /* Word scramble */
+  .scramble-card {
+    border: 1.5px solid #dfe9e4; border-radius: 8px; padding: 18px 20px; margin-bottom: 16px;
+  }
+  .scramble-word {
+    font-size: 20px; letter-spacing: 4px; font-weight: bold; color: #004d40;
+    margin-bottom: 8px; font-family: monospace;
+  }
+  .scramble-hint { font-size: 12.5px; color: #5b6b64; margin-bottom: 12px; }
+  .scramble-input-row { display: flex; gap: 8px; }
+  .scramble-input {
+    flex: 1; border: 1.5px solid #dfe9e4; border-radius: 6px; padding: 9px 12px; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .scramble-input.correct-input { border-color: #1e7a4c; background: #e6f5ec; }
+  .scramble-status { font-size: 12.5px; margin-top: 8px; font-weight: bold; }
+  .scramble-status.ok { color: #12513a; }
+
+  .footer { text-align: center; padding: 20px 36px; background-color: #004d40; color: #ffffff; font-size: 12px; opacity: 0.85; line-height: 1.6; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="header">
+        <div class="eyebrow">Apollo Green Solutions</div>
+        <div class="title">Welcome, {{NAME}} 👋</div>
+        <div class="subtitle">{{ROLE}} · {{DEPARTMENT}} · Starting {{START_DATE}}</div>
+      </div>
+
+      <div class="journey">
+        <div class="journey-label">
+          <span>Your onboarding journey</span>
+          <span id="journeyPct">0%</span>
+        </div>
+        <div class="journey-track"><div class="journey-fill" id="journeyFill"></div></div>
+        <div class="badges">
+          <span class="badge" id="badgeChecklist">Checklist</span>
+          <span class="badge" id="badgeQuiz">Company Quiz</span>
+          <span class="badge" id="badgeGame">Values Challenge</span>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" data-panel="checklist">✅ Checklist</div>
+        <div class="tab" data-panel="quiz">🧠 Company Quiz</div>
+        <div class="tab" data-panel="game">🔤 Values Challenge</div>
+      </div>
+
+      <!-- Checklist Panel -->
+      <div class="panel active" id="panel-checklist">
+        <div class="section-title">Your Onboarding Checklist</div>
+        <div class="section-sub">Tick off each task as you complete it — your progress is saved automatically.</div>
+        <div class="progress-label">
+          <span>Progress</span>
+          <span class="progress-count"><span id="doneCount">0</span> / <span id="totalCount">10</span> complete</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="checklistFill"></div></div>
+        <ul class="checklist" id="checklist"></ul>
+      </div>
+
+      <!-- Quiz Panel -->
+      <div class="panel" id="panel-quiz">
+        <div class="section-title">Get to Know Apollo</div>
+        <div class="section-sub">A quick 6-question check to make sure the basics have landed. You can retake it anytime.</div>
+        <div id="quizBody"></div>
+        <div class="quiz-result" id="quizResult"></div>
+        <button class="btn" id="quizSubmit">Check My Answers</button>
+        <button class="btn secondary" id="quizRetry" style="display:none;">Retake Quiz</button>
+      </div>
+
+      <!-- Values Challenge Panel -->
+      <div class="panel" id="panel-game">
+        <div class="section-title">Values Word Scramble</div>
+        <div class="section-sub">Unscramble each word to reveal a value that shapes how we work at Apollo.</div>
+        <div id="scrambleBody"></div>
+      </div>
+
+      <div class="footer">
+        Apollo Green Solutions · Energy Management &amp; Compliance<br>
+        Questions? Reach {{MANAGER}} at {{MANAGER_EMAIL}}
+      </div>
+    </div>
+  </div>
+
+<script>
+  var SLUG = "{{NAME_SLUG}}" || "default";
+  var KEY_CHECKLIST = "apollo_onboarding_progress_" + SLUG;
+  var KEY_QUIZ = "apollo_onboarding_quiz_" + SLUG;
+  var KEY_GAME = "apollo_onboarding_game_" + SLUG;
+
+  /* ---------- Tabs ---------- */
+  var tabs = document.querySelectorAll(".tab");
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      tabs.forEach(function (t) { t.classList.remove("active"); });
+      document.querySelectorAll(".panel").forEach(function (p) { p.classList.remove("active"); });
+      tab.classList.add("active");
+      document.getElementById("panel-" + tab.getAttribute("data-panel")).classList.add("active");
+    });
+  });
+
+  /* ---------- Checklist ---------- */
+  var ITEMS = [
+    "Receive and activate company email",
+    "Set up Microsoft Teams profile",
+    "Complete IT security training",
+    "Read company handbook",
+    "Set up CRM access",
+    "Meet with direct manager ({{MANAGER}})",
+    "Meet team members (minimum 3 intro meetings)",
+    "Review current project portfolio",
+    "Submit signed employment documents to HR",
+    "Set up development / technical environment"
+  ];
+  var list = document.getElementById("checklist");
+  var savedChecklist = {};
+  try { savedChecklist = JSON.parse(localStorage.getItem(KEY_CHECKLIST)) || {}; } catch (e) {}
+
+  ITEMS.forEach(function (text, i) {
+    var li = document.createElement("li");
+    var checked = savedChecklist[i] ? "checked" : "";
+    li.innerHTML =
+      '<label class="item-label">' +
+        '<input type="checkbox" data-idx="' + i + '" ' + checked + '>' +
+        '<span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>' +
+        '<span class="item-text">' + text + '</span>' +
+      '</label>';
+    list.appendChild(li);
+  });
+  document.getElementById("totalCount").textContent = ITEMS.length;
+
+  function checklistDoneCount() {
+    var checkboxes = list.querySelectorAll('input[type="checkbox"]');
+    var done = 0, state = {};
+    checkboxes.forEach(function (cb) {
+      if (cb.checked) done++;
+      state[cb.getAttribute("data-idx")] = cb.checked;
+    });
+    localStorage.setItem(KEY_CHECKLIST, JSON.stringify(state));
+    return { done: done, total: checkboxes.length };
+  }
+
+  function updateChecklistUI() {
+    var r = checklistDoneCount();
+    document.getElementById("doneCount").textContent = r.done;
+    document.getElementById("checklistFill").style.width = Math.round((r.done / r.total) * 100) + "%";
+    updateJourney();
+  }
+  list.addEventListener("change", updateChecklistUI);
+
+  /* ---------- Quiz ---------- */
+  var QUIZ = [
+    {
+      q: "What are Apollo's three core pillars?",
+      options: ["Sales, Marketing, Support", "Hardware, Software, Services", "Solar, Wind, Battery", "HR, Finance, IT"],
+      correct: 1
+    },
+    {
+      q: "Who does Apollo primarily serve?",
+      options: ["Residential homeowners", "Retail stores", "Heavy energy consumers — industrial plants, commercial real estate, solar parks, stadiums", "Government agencies only"],
+      correct: 2
+    },
+    {
+      q: "What does Apollo's AI-driven software help with?",
+      options: ["Predictive maintenance and battery optimization", "Video editing", "Payroll processing", "Social media scheduling"],
+      correct: 0
+    },
+    {
+      q: "Which compliance standard is part of Apollo's services?",
+      options: ["PCI-DSS", "ISO 9001", "ISO 50001", "GDPR only"],
+      correct: 2
+    },
+    {
+      q: "Apollo's mission is to transform facilities into...",
+      options: ["Luxury office spaces", "Highly efficient, data-driven, compliant ecosystems", "Retail outlets", "Data centers only"],
+      correct: 1
+    },
+    {
+      q: "Which of these is NOT a typical Apollo client?",
+      options: ["Industrial plants", "Solar parks", "Single-family homes", "Stadiums"],
+      correct: 2
+    }
+  ];
+
+  var quizBody = document.getElementById("quizBody");
+  var quizAnswers = {};
+  try { quizAnswers = JSON.parse(localStorage.getItem(KEY_QUIZ) + "")?.answers || {}; } catch (e) { quizAnswers = {}; }
+  var quizSubmitted = false;
+  try { quizSubmitted = (JSON.parse(localStorage.getItem(KEY_QUIZ)) || {}).submitted || false; } catch (e) {}
+
+  function renderQuiz() {
+    quizBody.innerHTML = "";
+    QUIZ.forEach(function (item, qi) {
+      var block = document.createElement("div");
+      block.className = "q-block";
+      var optsHtml = item.options.map(function (opt, oi) {
+        return '<div class="q-option" data-q="' + qi + '" data-o="' + oi + '">' + opt + '</div>';
+      }).join("");
+      block.innerHTML = '<div class="q-text">' + (qi + 1) + ". " + item.q + '</div><div class="q-options">' + optsHtml + '</div>';
+      quizBody.appendChild(block);
+    });
+
+    quizBody.querySelectorAll(".q-option").forEach(function (opt) {
+      opt.addEventListener("click", function () {
+        if (quizSubmitted) return;
+        var qi = opt.getAttribute("data-q");
+        quizBody.querySelectorAll('.q-option[data-q="' + qi + '"]').forEach(function (o) {
+          o.classList.remove("selected");
+        });
+        opt.classList.add("selected");
+        quizAnswers[qi] = parseInt(opt.getAttribute("data-o"), 10);
+      });
+    });
+
+    if (quizSubmitted) { markQuizGraded(); }
+  }
+
+  function markQuizGraded() {
+    var score = 0;
+    QUIZ.forEach(function (item, qi) {
+      quizBody.querySelectorAll('.q-option[data-q="' + qi + '"]').forEach(function (o) {
+        var oi = parseInt(o.getAttribute("data-o"), 10);
+        o.classList.add("disabled");
+        if (oi === item.correct) o.classList.add("correct");
+        else if (quizAnswers[qi] === oi) o.classList.add("incorrect");
+      });
+      if (quizAnswers[qi] === item.correct) score++;
+    });
+    var resultEl = document.getElementById("quizResult");
+    resultEl.textContent = "You scored " + score + " / " + QUIZ.length + (score === QUIZ.length ? " — perfect! 🎉" : ".");
+    resultEl.classList.add("show");
+    document.getElementById("quizSubmit").style.display = "none";
+    document.getElementById("quizRetry").style.display = "inline-block";
+    return score;
+  }
+
+  document.getElementById("quizSubmit").addEventListener("click", function () {
+    if (Object.keys(quizAnswers).length < QUIZ.length) {
+      alert("Please answer all questions before checking.");
+      return;
+    }
+    quizSubmitted = true;
+    var score = markQuizGraded();
+    localStorage.setItem(KEY_QUIZ, JSON.stringify({ submitted: true, answers: quizAnswers, score: score }));
+    updateJourney();
+  });
+
+  document.getElementById("quizRetry").addEventListener("click", function () {
+    quizSubmitted = false;
+    quizAnswers = {};
+    localStorage.setItem(KEY_QUIZ, JSON.stringify({ submitted: false, answers: {}, score: 0 }));
+    document.getElementById("quizResult").classList.remove("show");
+    document.getElementById("quizSubmit").style.display = "inline-block";
+    document.getElementById("quizRetry").style.display = "none";
+    renderQuiz();
+    updateJourney();
+  });
+
+  renderQuiz();
+
+  /* ---------- Word Scramble (Apollo Values) ---------- */
+  var VALUES = [
+    { word: "SUSTAINABILITY", hint: "The long-term goal behind every EMS deployment" },
+    { word: "COMPLIANCE", hint: "ISO 50001 and NIS2 both live here" },
+    { word: "INNOVATION", hint: "What our AI-driven dashboards are built on" },
+    { word: "EFFICIENCY", hint: "Turning raw energy data into real savings" },
+    { word: "INTEGRITY", hint: "Doing right by clients, even when no one's checking" }
+  ];
+
+  function scramble(word) {
+    var arr = word.split("");
+    var scrambled;
+    do {
+      for (var i = arr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+      }
+      scrambled = arr.join("");
+    } while (scrambled === word && word.length > 1);
+    return scrambled;
+  }
+
+  var gameBody = document.getElementById("scrambleBody");
+  var gameState = {};
+  try { gameState = JSON.parse(localStorage.getItem(KEY_GAME)) || {}; } catch (e) {}
+
+  VALUES.forEach(function (item, vi) {
+    var div = document.createElement("div");
+    div.className = "scramble-card";
+    var solved = gameState[vi] === true;
+    var displayScramble = gameState["scramble_" + vi] || scramble(item.word);
+    gameState["scramble_" + vi] = displayScramble;
+    div.innerHTML =
+      '<div class="scramble-word">' + (solved ? item.word : displayScramble) + '</div>' +
+      '<div class="scramble-hint">💡 ' + item.hint + '</div>' +
+      '<div class="scramble-input-row">' +
+        '<input type="text" class="scramble-input' + (solved ? " correct-input" : "") + '" data-idx="' + vi + '" placeholder="Type your answer" ' + (solved ? "disabled" : "") + ' value="' + (solved ? item.word : "") + '">' +
+        '<button class="btn secondary check-btn" data-idx="' + vi + '"' + (solved ? " style=\"display:none;\"" : "") + '>Check</button>' +
+      '</div>' +
+      '<div class="scramble-status ' + (solved ? "ok" : "") + '" id="status-' + vi + '">' + (solved ? "✔ Solved!" : "") + '</div>';
+    gameBody.appendChild(div);
+  });
+  localStorage.setItem(KEY_GAME, JSON.stringify(gameState));
+
+  gameBody.addEventListener("click", function (e) {
+    if (!e.target.classList.contains("check-btn")) return;
+    var idx = e.target.getAttribute("data-idx");
+    var input = gameBody.querySelector('.scramble-input[data-idx="' + idx + '"]');
+    var status = document.getElementById("status-" + idx);
+    var guess = (input.value || "").trim().toUpperCase();
+    if (guess === VALUES[idx].word) {
+      input.classList.add("correct-input");
+      input.disabled = true;
+      e.target.style.display = "none";
+      status.textContent = "✔ Solved!";
+      status.classList.add("ok");
+      gameState[idx] = true;
+      localStorage.setItem(KEY_GAME, JSON.stringify(gameState));
+      updateJourney();
+    } else {
+      status.textContent = "Not quite — try again.";
+      status.classList.remove("ok");
+    }
+  });
+
+  /* ---------- Overall Journey Progress ---------- */
+  function gameSolvedCount() {
+    var n = 0;
+    VALUES.forEach(function (v, vi) { if (gameState[vi] === true) n++; });
+    return n;
+  }
+
+  function updateJourney() {
+    var checklistR = checklistDoneCount();
+    var checklistDone = checklistR.done === checklistR.total;
+    var quizData = {};
+    try { quizData = JSON.parse(localStorage.getItem(KEY_QUIZ)) || {}; } catch (e) {}
+    var quizDone = quizData.submitted === true;
+    var gameDone = gameSolvedCount() === VALUES.length;
+
+    document.getElementById("badgeChecklist").classList.toggle("done", checklistDone);
+    document.getElementById("badgeQuiz").classList.toggle("done", quizDone);
+    document.getElementById("badgeGame").classList.toggle("done", gameDone);
+
+    var parts = [
+      checklistR.done / checklistR.total,
+      quizDone ? 1 : 0,
+      gameSolvedCount() / VALUES.length
+    ];
+    var pct = Math.round((parts.reduce(function (a, b) { return a + b; }, 0) / parts.length) * 100);
+    document.getElementById("journeyFill").style.width = pct + "%";
+    document.getElementById("journeyPct").textContent = pct + "%";
+  }
+
+  updateChecklistUI();
+  updateJourney();
+</script>
+</body>
+</html>
