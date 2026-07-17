@@ -4,6 +4,8 @@ Automated employee onboarding email system for Apollo Green Solutions, built dur
 
 When a new hire's details are entered, the system generates and delivers a personalized, branded welcome email — including a first-week schedule, onboarding checklist, and key contacts — with **zero manual effort from HR**.
 
+📄 **[Full Technical Specification (Power Automate v2)](docs/power-automate-technical-spec.md)** — flow structure, OData filters, dynamic field formulas, known issues, and test results.
+
 ---
 
 ## 🏷️ Version History
