@@ -1,65 +1,65 @@
-# Onboarding Email Sequence — Teknik Dokümantasyon
+# Onboarding Email Sequence — Technical Specification
 
-**Sistem:** Microsoft Lists + Power Automate (Scheduled Cloud Flow)
-**Amaç:** Yeni işe başlayan çalışanlara, başlangıç tarihlerinde otomatik olarak markalı bir onboarding e-postası göndermek — IT onayı veya özel Azure App Registration gerektirmeden.
-
----
-
-## 1. Genel Mimari
-
-- Kaynak veri: **Microsoft List** ("Employee Onboarding Tracker")
-- Otomasyon: **Power Automate** flow'u ("Onboarding Email Sequence"), her gün bir kez çalışır
-- Gönderim: **Office 365 Outlook** bağlayıcısı ("Send an email (V2)") — kişisel Outlook hesabı üzerinden, native/standart bağlayıcı (Premium değil, ek lisans gerektirmez)
-- Mükerrer gönderim koruması: Listede tutulan `Day1Sent` boolean alanı
+**System:** Microsoft Lists + Power Automate (Scheduled Cloud Flow)  
+**Purpose:** Automatically send a branded onboarding email to new hires on their start date — with no IT approval or custom Azure App Registration required.
 
 ---
 
-## 2. Microsoft List Yapısı
+## 1. System Architecture
 
-**Liste adı:** `Employee Onboarding Tracker`
-**Konum:** "My lists" (kişisel site) — `https://netorgft11981164-my.sharepoint.com/personal/ummuguslun_turkmen_apollo-gs_com`
+- **Data source:** Microsoft Lists ("Employee Onboarding Tracker")
+- **Automation:** Power Automate flow ("Onboarding Email Sequence") — runs once per day
+- **Delivery:** Office 365 Outlook connector ("Send an email (V2)") — uses the HR account's native Outlook connection (Standard tier, no Premium license required)
+- **Duplicate-send protection:** `Day1Sent` boolean column in the List — flipped to `true` after each successful send
 
-| Kolon (Görünen Ad) | Internal Adı | Veri Tipi | Notlar |
+---
+
+## 2. Microsoft Lists Schema
+
+**List name:** `Employee Onboarding Tracker`  
+**Location:** Personal site ("My lists") — `https://netorgft11981164-my.sharepoint.com/personal/ummuguslun_turkmen_apollo-gs_com`
+
+| Display Name | Internal Name | Type | Notes |
 |---|---|---|---|
-| Name | **Title** | Single line of text | Listenin varsayılan "Title" kolonu yeniden adlandırıldı. Görünen ad "Name" olsa da, tüm formül/dinamik içerik referanslarında internal ad olan **Title** kullanılmalı. |
+| Name | **Title** | Single line of text | Default "Title" column renamed. Display name is "Name" but the internal name **Title** must be used in all formula/dynamic content references. |
 | Role | Role | Single line of text | |
 | Department | Department | Single line of text | |
 | Manager | Manager | Single line of text | |
-| StartDate | StartDate | Date and time | Format: "Date only" olarak ayarlandı (saat bileşeni yok) |
-| NewHireEmail | NewHireEmail | Single line of text | Bilerek "Person" tipi **kullanılmadı** — yeni işe alınan kişinin henüz M365 hesabı olmayabilir |
-| Day1Sent | Day1Sent | Yes/No | Varsayılan: No. Flow tarafından e-posta gönderildikten sonra otomatik Yes'e çevrilir |
-| Day3Sent | Day3Sent | Yes/No | **Şu an kullanılmıyor** — bkz. Bölüm 5 |
-| Week1Sent | Week1Sent | Yes/No | **Şu an kullanılmıyor** — bkz. Bölüm 5 |
+| StartDate | StartDate | Date and time | Format set to "Date only" (no time component) |
+| NewHireEmail | NewHireEmail | Single line of text | Deliberately **not** "Person" type — new hires may not have an M365 account yet |
+| Day1Sent | Day1Sent | Yes/No | Default: No. Automatically set to Yes by the flow after sending |
+| Day3Sent | Day3Sent | Yes/No | **Currently unused** — see Section 5 |
+| Week1Sent | Week1Sent | Yes/No | **Currently unused** — see Section 5 |
 
 ---
 
-## 3. Power Automate Flow Yapısı
+## 3. Power Automate Flow Structure
 
-**Flow adı:** `Onboarding Email Sequence`
-**Tetikleyici tipi:** Scheduled Cloud Flow (Recurrence)
+**Flow name:** `Onboarding Email Sequence`  
+**Trigger type:** Scheduled Cloud Flow (Recurrence)
 
-### 3.1 — Recurrence (Tetikleyici)
+### 3.1 — Recurrence (Trigger)
 - Interval: `1`
 - Frequency: `Day`
-- Time Zone: Kullanıcının yerel saat dilimi (açıkça ayarlanmalı — UTC'de bırakılmamalı, gün sınırındaki karşılaştırma hatalarını önlemek için)
+- Time Zone: Explicitly set to the user's local time zone (must not be left as UTC — avoids day-boundary comparison errors)
 
-### 3.2 — Öğeleri al (Get items)
-**Bağlayıcı:** SharePoint
+### 3.2 — Get Items (SharePoint)
 
-| Parametre | Değer |
+| Parameter | Value |
 |---|---|
-| Site Adresi | `https://netorgft11981164-my.sharepoint.com/personal/ummuguslun_turkmen_apollo-gs_com` |
-| Liste Adı | `Employee Onboarding Tracker` |
+| Site Address | `https://netorgft11981164-my.sharepoint.com/personal/ummuguslun_turkmen_apollo-gs_com` |
+| List Name | `Employee Onboarding Tracker` |
 | Filter Query | `Week1Sent eq 0` |
 
-> **Not:** Site Adresi alanına bir "paylaşım bağlantısı" (`:l:/g/...` formatında, token'lı URL) değil, düz site kök adresi girilmelidir. Dropdown/picker kişisel siteleri her zaman otomatik bulamayabiliyor — bu durumda alanlara doğrudan metin olarak yazmak (Site Adresi ve Liste Adı) işe yarıyor.
+> **Note:** The Site Address field must contain the plain site root URL — not a sharing link (`:l:/g/...` token format). The dropdown/picker does not always auto-detect personal sites; typing the Site Address and List Name directly as text works reliably.
 >
-> Filter Query neden sadece `Week1Sent eq 0`: Week1Sent, kronolojik olarak en son işaretlenecek alan olduğu için, bu tek koşul "hâlâ gönderilmemiş bir şeyi olan" tüm satırları kapsar.
+> **Why only `Week1Sent eq 0`:** Since Week1Sent is the last flag to be set chronologically, this single condition efficiently fetches every row that still has at least one pending email stage.
 
-### 3.3 — Her birine uygula (Apply to each)
-- Input: `Öğeleri al` adımının **value** çıktısı (`body/value`)
+### 3.3 — Apply to Each
+- Input: **value** output of the "Get items" step (`body/value`)
 
-### 3.4 — Koşul ("Koşul" — Day 1 kontrolü)
+### 3.4 — Condition (Day 1 check)
+
 **Condition expression:**
 ```
 and(
@@ -67,36 +67,39 @@ and(
   equals(item()?['Day1Sent'], false)
 )
 ```
-> Bu ifade kasıtlı olarak "tam olarak bugün" yerine "başlangıç tarihi geldi veya geçti VE henüz gönderilmedi" mantığıyla yazıldı — flow bir gün çalışmazsa (hafta sonu, kesinti vb.) bir sonraki çalıştırmada otomatik telafi eder.
 
-#### Doğru (True) dalı:
+> This is intentionally written as "start date has arrived or passed AND not yet sent" rather than "exactly today" — if the flow misses a day (weekend, outage, etc.) it automatically catches up on the next run.
 
-**a) Oluştur (Compose)** — tam HTML e-posta şablonunu, aşağıdaki dinamik alanlar/formüllerle birlikte üretir (bkz. Bölüm 4).
+#### True branch:
 
-**b) E-posta gönder (V2)** — Bağlayıcı: Office 365 Outlook
-| Alan | Değer |
+**a) Compose** — Generates the full HTML email body with dynamic fields injected (see Section 4).
+
+**b) Send an email (V2)** — Connector: Office 365 Outlook
+
+| Field | Value |
 |---|---|
-| Bitiş (To) | `NewHireEmail` (dinamik içerik) |
-| Konu (Subject) | `Welcome to Apollo Green Solutions — Your Onboarding Guide.` (statik metin) |
-| Gövde (Body) | `Oluştur` adımının çıktısı — **hiçbir sarmalayıcı etiket olmadan** (bkz. Bölüm 6, rich-text editor uyarısı) |
+| To | `NewHireEmail` (dynamic content) |
+| Subject | `Welcome to Apollo Green Solutions — Your Onboarding Guide.` (static) |
+| Body | Output of the Compose action — **with no wrapper tags** (see Section 6, rich-text editor warning) |
 
-**c) Öğeyi güncelleştir (Update item)** — Bağlayıcı: SharePoint
-| Parametre | Değer |
+**c) Update item** — Connector: SharePoint
+
+| Parameter | Value |
 |---|---|
-| Site Adresi | Get items ile aynı |
-| Liste Adı | Get items ile aynı |
-| Kimlik (Id) | Geçerli döngü öğesinin ID'si (dinamik içerik) |
-| **Değiştirilen tek kolon** | `Day1Sent = Evet (true)` |
+| Site Address | Same as Get items |
+| List Name | Same as Get items |
+| Id | Current loop item's ID (dynamic content) |
+| **Only field updated** | `Day1Sent = Yes (true)` |
 
-> **Kritik nokta:** Bu Update item aksiyonu **yalnızca** `Day1Sent` alanını içermeli. `Day3Sent` ve `Week1Sent` bu aksiyona **eklenmemeli** (parametre listesinden kaldırılmalı) — aksi halde her Day-1 gönderiminde bu iki alan sıfırlanır/ezilir, bu da ileride mükerrer gönderim riskine yol açar.
+> **Critical:** This Update item action must contain **only** the `Day1Sent` field. `Day3Sent` and `Week1Sent` must **not** be included — otherwise every Day-1 send would reset those fields and risk duplicate sends in later stages.
 
-#### Yanlış (False) dalı: Boş (hiçbir aksiyon yok)
+#### False branch: Empty (no actions)
 
-### 3.5 — Kullanılmayan Koşullar: "Koşul 1" ve "Koşul 2"
+### 3.5 — Unused Conditions: "Condition 1" and "Condition 2"
 
-Flow içinde, "Koşul"dan sonra sırayla iki koşul daha bulunuyor — bunlar başlangıçta bir Day 3 / Week 1 çok dokunuşlu (multi-touch) e-posta dizisi için hazırlanmıştı, ancak **tek bir kapsamlı Day-1 e-postasının yeterli olduğuna karar verildiği için içleri boş bırakıldı.**
+The flow contains two additional conditions after the main one. These were scaffolded for a multi-touch email sequence (Day 3 / Week 1) but **left empty after the decision was made that a single comprehensive Day-1 email is sufficient**.
 
-**Koşul 1 (Day 3 — kullanılmıyor):**
+**Condition 1 (Day 3 — currently unused):**
 ```
 and(
   greaterOrEquals(utcNow(), addDays(item()?['StartDate'], 3)),
@@ -104,7 +107,7 @@ and(
 )
 ```
 
-**Koşul 2 (Week 1 — kullanılmıyor):**
+**Condition 2 (Week 1 — currently unused):**
 ```
 and(
   greaterOrEquals(utcNow(), addDays(item()?['StartDate'], 7)),
@@ -112,21 +115,21 @@ and(
 )
 ```
 
-Her ikisinin de Doğru/Yanlış dallarında hiçbir aksiyon yok — bu yüzden hangi sonucu verirlerse versinler flow'un davranışını etkilemezler. İleride tekrar bir çok-aşamalı diziye geçilmek istenirse, bu iskelet zaten hazır durumda.
+Both conditions have empty True/False branches — they have no effect on flow behavior. The scaffold is ready if a multi-stage sequence is needed in the future.
 
 ---
 
-## 4. Compose Aksiyonundaki Dinamik Alanlar ve Formüller
+## 4. Compose Action — Dynamic Fields and Formulas
 
-Aşağıdaki tüm ifadeler "Oluştur" (Compose) aksiyonu içinde, HTML şablonundaki `{{TOKEN}}` yer tutucularının yerine eklendi:
+All expressions below replace `{{TOKEN}}` placeholders in the HTML template inside the Compose action:
 
-| Yer Tutucu | Kaynak / Formül |
+| Placeholder | Source / Formula |
 |---|---|
-| `{{NAME}}` | **Title** (dinamik içerik — 2 yerde kullanıldı) |
-| `{{ROLE}}` | **Role** (dinamik içerik) |
-| `{{DEPARTMENT}}` | **Department** (dinamik içerik — 2 yerde kullanıldı) |
-| `{{START_DATE}}` | **StartDate** (dinamik içerik, ham ISO formatında — isteğe bağlı iyileştirme aşağıda) |
-| `{{MANAGER}}` | **Manager** (dinamik içerik — 4 yerde kullanıldı) |
+| `{{NAME}}` | **Title** (dynamic content — used in 2 places) |
+| `{{ROLE}}` | **Role** (dynamic content) |
+| `{{DEPARTMENT}}` | **Department** (dynamic content — used in 2 places) |
+| `{{START_DATE}}` | **StartDate** (dynamic content, raw ISO format — optional improvement below) |
+| `{{MANAGER}}` | **Manager** (dynamic content — used in 4 places) |
 | `{{MANAGER_EMAIL}}` | `concat(toLower(replace(item()?['Manager'], ' ', '.')), '@apollo-gs.com')` |
 | `{{DAY1_DATE}}` | `formatDateTime(item()?['StartDate'], 'MMM d')` |
 | `{{DAY2_DATE}}` | `formatDateTime(addDays(item()?['StartDate'], 1), 'MMM d')` |
@@ -134,26 +137,30 @@ Aşağıdaki tüm ifadeler "Oluştur" (Compose) aksiyonu içinde, HTML şablonun
 | `{{DAY4_DATE}}` | `formatDateTime(addDays(item()?['StartDate'], 3), 'MMM d')` |
 | `{{DAY5_DATE}}` | `formatDateTime(addDays(item()?['StartDate'], 4), 'MMM d')` |
 
-**İsteğe bağlı iyileştirme (henüz uygulanmadı):** `{{START_DATE}}` alanı şu an ham `StartDate` değerini (ör. "2026-07-16") basıyor. Daha okunaklı olması için:
+**Optional improvement (not yet applied):** `{{START_DATE}}` currently outputs the raw value (e.g. "2026-07-16"). For a more readable format:
 ```
-formatDateTime(items('Her_birine_uygula')?['StartDate'], 'MMMM d, yyyy')
+formatDateTime(items('Apply_to_each')?['StartDate'], 'MMMM d, yyyy')
 ```
-kullanılabilir (ör. "July 16, 2026").
+This produces e.g. "July 16, 2026".
 
 ---
 
-## 5. Bilinen Notlar / Karşılaşılan Sorunlar
+## 5. Known Issues and Workarounds
 
-- **Site Adresi hatası ("We didn't find a site with this address"):** Bu, bir paylaşım bağlantısı (sharing link) yapıştırıldığında oluşur. Çözüm: gerçek site kök adresini kullanmak.
-- **GetTable şema uyarısı:** "Get items" aksiyonunda bazen bir OpenAPI şema algılama uyarısı çıkabilir (`status code 200 does not contain a valid OpenAPI schema object`). Bu **kozmetiktir** — gerçek veri bağlantısı çalışmaya devam eder, sadece dinamik içerik önerileri (tokens) tam gelmeyebilir; bu durumda alanlar **fx** (expression) ile manuel yazılabilir.
-- **Send an email (V2) — Gövde alanı zengin metin editörü:** Bu alan varsayılan olarak bir rich-text editördür ve içine eklenen dinamik içeriği otomatik olarak `<p>` etiketleriyle sarmalayabilir. Çözüm: **"</>"** (kod görünümü) simgesine tıklayıp, eklenen token'ın etrafındaki tüm `<p>`/`</p>` kalıntılarını manuel silmek — alanda yalnızca çıplak token kalmalı.
-- **"Öğeyi güncelleştir" alanları:** Her Update item aksiyonu, **yalnızca ilgili tek alanı** içermeli (Day1 dalı → sadece Day1Sent, ileride Day3/Week1 dalları eklenirse sadece kendi alanları). Diğer Sent alanları asla bu aksiyona dahil edilmemeli.
-- **Logo görseli:** Şablondaki `<img src="https://www.apollo-gs.com/logo.png">` şu anda gerçek bir görsele işaret etmiyor (broken image). Gerçek, canlı bir logo URL'si ile değiştirilmesi gerekiyor.
-- **Lisans/Maliyet:** SharePoint ve Office 365 Outlook bağlayıcıları **Standard** tier'dadır — Microsoft 365 iş planlarına dahildir, ek Power Automate lisansı veya Premium bağlayıcı maliyeti gerektirmez.
+- **Site Address error ("We didn't find a site with this address"):** Occurs when a sharing link is pasted. Fix: use the plain site root URL.
+- **GetTable schema warning:** The "Get items" action may occasionally show an OpenAPI schema detection warning (`status code 200 does not contain a valid OpenAPI schema object`). This is **cosmetic** — the data connection continues to work; dynamic content suggestions (tokens) may not appear automatically, in which case fields can be entered manually via **fx** (expression mode).
+- **Send an email (V2) — Body field rich-text editor:** This field defaults to a rich-text editor and may automatically wrap injected dynamic content with `<p>` tags. Fix: click the **\</>** (code view) icon and manually delete any `<p>`/`</p>` remnants around the token — only the bare token should remain in the field.
+- **Update item fields:** Each Update item action must contain **only its own flag column** (Day1 branch → only Day1Sent; if Day3/Week1 branches are added later → only their respective fields). Other Sent fields must never be included.
+- **Logo image:** The `<img src="...">` in the template now points to the official Apollo logo hosted on the company's Wix CDN (`static.wixstatic.com`). This is a live public URL that renders correctly in all email clients.
+- **Licensing / Cost:** SharePoint and Office 365 Outlook connectors are **Standard** tier — included in Microsoft 365 business plans, no additional Power Automate license or Premium connector cost required.
 
 ---
 
-## 6. Test Sonuçları (Doğrulandı)
+## 6. Test Results (Verified)
 
-- İlk çalıştırma: Test satırı için e-posta başarıyla gönderildi, tüm dinamik alanlar doğru şekilde dolduruldu, `Day1Sent` otomatik olarak "Yes" oldu.
-- İkinci çalıştırma (aynı gün): `Day1Sent` artık "Yes" olduğu için "Koşul" **Yanlış** sonucunu verdi, Doğru dalındaki tüm aksiyonlar (Oluştur, E-posta gönder, Öğeyi güncelleştir) **atlandı (skipped)** — mükerrer gönderim koruması doğrulandı.
+- **First run:** Email sent successfully for the test row. All dynamic fields populated correctly. `Day1Sent` automatically set to "Yes".
+- **Second run (same day):** `Day1Sent` was already "Yes" — the Condition evaluated to **False**, and all True-branch actions (Compose, Send email, Update item) were **skipped**. Duplicate-send protection confirmed working.
+
+---
+
+Built by Ümmu Gülsün · Apollo Green Solutions · Erasmus+ Internship 2026
