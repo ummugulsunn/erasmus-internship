@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Monthly HR Report Card</title>
+<style>
+  body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+  table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+  img { border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+  body { margin: 0; padding: 0; width: 100% !important; background-color: #f2f6f4; }
+  a { text-decoration: none; }
+  @media only screen and (max-width: 620px) {
+    .email-container { width: 100% !important; }
+    .fluid-padding { padding-left: 20px !important; padding-right: 20px !important; }
+    .stack-col { display: block !important; width: 100% !important; }
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#f2f6f4;">
+  <div style="display:none;font-size:1px;max-height:0;overflow:hidden;mso-hide:all;">Monthly HR Report Card for {{MONTH_YEAR}}.</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f2f6f4;">
+    <tr><td align="center" style="padding:32px 12px;">
+      <table role="presentation" class="email-container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;background-color:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #dfe9e4;">
+        <!-- Header -->
+        <tr>
+          <td class="fluid-padding" align="left" style="background-color:#004d40;padding:28px 36px;border-radius:10px 10px 0 0;">
+            <img src="https://www.apollo-gs.com/favicon.ico" alt="Apollo Green Solutions" style="height:50px;display:block;">
+            <div style="font-family:Helvetica,Arial,sans-serif;color:#ffffff;font-size:12px;letter-spacing:2px;text-transform:uppercase;opacity:0.85;margin-top:14px;">Apollo Green Solutions</div>
+            <div style="font-family:Helvetica,Arial,sans-serif;color:#ffffff;font-size:24px;font-weight:bold;margin-top:6px;line-height:1.3;">Monthly HR Report Card</div>
+            <div style="font-family:Helvetica,Arial,sans-serif;color:#a3c7b6;font-size:16px;margin-top:6px;">{{MONTH_YEAR}}</div>
+          </td>
+        </tr>
+        
+        <!-- Quick Stats Bar -->
+        <tr>
+          <td class="fluid-padding" style="padding:28px 36px 16px 36px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td class="stack-col" width="33%" valign="top" style="padding:0 4px 8px 0;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f2f6f4;border-radius:8px;">
+                    <tr><td align="center" style="padding:16px;font-family:Helvetica,Arial,sans-serif;">
+                      <div style="font-size:11px;text-transform:uppercase;color:#1e7a4c;font-weight:bold;">Total Headcount</div>
+                      <div style="font-size:24px;font-weight:bold;color:#004d40;margin-top:6px;">{{TOTAL_HEADCOUNT}}</div>
+                    </td></tr>
+                  </table>
+                </td>
+                <td class="stack-col" width="33%" valign="top" style="padding:0 4px 8px 4px;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f2f6f4;border-radius:8px;">
+                    <tr><td align="center" style="padding:16px;font-family:Helvetica,Arial,sans-serif;">
+                      <div style="font-size:11px;text-transform:uppercase;color:#1e7a4c;font-weight:bold;">New Hires</div>
+                      <div style="font-size:24px;font-weight:bold;color:#004d40;margin-top:6px;">{{NEW_HIRES_COUNT}}</div>
+                    </td></tr>
+                  </table>
+                </td>
+                <td class="stack-col" width="33%" valign="top" style="padding:0 0 8px 4px;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f2f6f4;border-radius:8px;">
+                    <tr><td align="center" style="padding:16px;font-family:Helvetica,Arial,sans-serif;">
+                      <div style="font-size:11px;text-transform:uppercase;color:#1e7a4c;font-weight:bold;">Departures</div>
+                      <div style="font-size:24px;font-weight:bold;color:#004d40;margin-top:6px;">{{DEPARTURES_COUNT}}</div>
+                    </td></tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- New Hires Table -->
+        <tr>
+          <td class="fluid-padding" style="padding:16px 36px 8px 36px;">
+            <div style="font-family:Helvetica,Arial,sans-serif;color:#004d40;font-size:17px;font-weight:bold;margin-bottom:14px;">New Hires This Month</div>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:Helvetica,Arial,sans-serif;font-size:13.5px;color:#1f2b26;border-collapse:collapse;">
+              <tr>
+                <td style="background-color:#e6f5ec;color:#004d40;font-size:11.5px;text-transform:uppercase;font-weight:bold;padding:10px 12px;border:1px solid #dfe9e4;">Name</td>
+                <td style="background-color:#e6f5ec;color:#004d40;font-size:11.5px;text-transform:uppercase;font-weight:bold;padding:10px 12px;border:1px solid #dfe9e4;">Role</td>
+                <td style="background-color:#e6f5ec;color:#004d40;font-size:11.5px;text-transform:uppercase;font-weight:bold;padding:10px 12px;border:1px solid #dfe9e4;">Department</td>
+                <td style="background-color:#e6f5ec;color:#004d40;font-size:11.5px;text-transform:uppercase;font-weight:bold;padding:10px 12px;border:1px solid #dfe9e4;">Start Date</td>
+              </tr>
+              {{NEW_HIRES_ROWS}}
+            </table>
+          </td>
+        </tr>
+
+        <!-- Upcoming Departures Table -->
+        <tr>
+          <td class="fluid-padding" style="padding:16px 36px 8px 36px;">
+            <div style="font-family:Helvetica,Arial,sans-serif;color:#004d40;font-size:17px;font-weight:bold;margin-bottom:14px;">Upcoming Departures (Next 30 Days)</div>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:Helvetica,Arial,sans-serif;font-size:13.5px;color:#1f2b26;border-collapse:collapse;">
+              <tr>
+                <td style="background-color:#e6f5ec;color:#004d40;font-size:11.5px;text-transform:uppercase;font-weight:bold;padding:10px 12px;border:1px solid #dfe9e4;">Name</td>
+                <td style="background-color:#e6f5ec;color:#004d40;font-size:11.5px;text-transform:uppercase;font-weight:bold;padding:10px 12px;border:1px solid #dfe9e4;">Role</td>
+                <td style="background-color:#e6f5ec;color:#004d40;font-size:11.5px;text-transform:uppercase;font-weight:bold;padding:10px 12px;border:1px solid #dfe9e4;">Department</td>
+                <td style="background-color:#e6f5ec;color:#004d40;font-size:11.5px;text-transform:uppercase;font-weight:bold;padding:10px 12px;border:1px solid #dfe9e4;">End Date</td>
+              </tr>
+              {{DEPARTURES_ROWS}}
+            </table>
+          </td>
+        </tr>
+
+        <!-- Headcount by Department Table -->
+        <tr>
+          <td class="fluid-padding" style="padding:16px 36px 28px 36px;">
+            <div style="font-family:Helvetica,Arial,sans-serif;color:#004d40;font-size:17px;font-weight:bold;margin-bottom:14px;">Headcount by Department</div>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:Helvetica,Arial,sans-serif;font-size:13.5px;color:#1f2b26;border-collapse:collapse;width:100%;">
+              <tr>
+                <td style="background-color:#e6f5ec;color:#004d40;font-size:11.5px;text-transform:uppercase;font-weight:bold;padding:10px 12px;border:1px solid #dfe9e4;">Department</td>
+                <td style="background-color:#e6f5ec;color:#004d40;font-size:11.5px;text-transform:uppercase;font-weight:bold;padding:10px 12px;border:1px solid #dfe9e4;text-align:right;">Count</td>
+              </tr>
+              {{DEPARTMENT_ROWS}}
+            </table>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td align="center" style="background-color:#004d40;padding:22px 36px;border-radius:0 0 10px 10px;">
+            <div style="font-family:Helvetica,Arial,sans-serif;color:#ffffff;font-size:12px;opacity:0.85;line-height:1.6;">
+              This report was auto-generated by the Apollo HR Automation System on {{REPORT_DATE}}<br>
+              &copy; 2026 Apollo Green Solutions. All rights reserved.
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>

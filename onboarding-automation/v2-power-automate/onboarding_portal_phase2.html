@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{NAME}} — Apollo Onboarding Experience</title>
+<title>Apollo Onboarding Experience</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -117,8 +117,8 @@
     <div class="card">
       <div class="header">
         <div class="eyebrow">Apollo Green Solutions</div>
-        <div class="title">Welcome, {{NAME}} 👋</div>
-        <div class="subtitle">{{ROLE}} · {{DEPARTMENT}} · Starting {{START_DATE}}</div>
+        <div class="title">Welcome, <span id="empName">there</span> 👋</div>
+        <div class="subtitle"><span id="empRole">Team Member</span> · <span id="empDept">Apollo</span> · Starting <span id="empStart">soon</span></div>
       </div>
 
       <div class="journey">
@@ -171,13 +171,36 @@
 
       <div class="footer">
         Apollo Green Solutions · Energy Management &amp; Compliance<br>
-        Questions? Reach {{MANAGER}} at {{MANAGER_EMAIL}}
+        Questions? Reach <span id="footerManager">your manager</span> at <span id="footerManagerEmail">hr@apollo-gs.com</span>
       </div>
     </div>
   </div>
 
 <script>
-  var SLUG = "{{NAME_SLUG}}" || "default";
+  /* ---------- Read per-employee data from the URL (no server-side templating needed) ---------- */
+  function getParam(key) {
+    return new URLSearchParams(window.location.search).get(key) || "";
+  }
+  function slugify(str) {
+    return (str || "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "default";
+  }
+
+  var EMP_NAME = getParam("name") || "there";
+  var EMP_ROLE = getParam("role") || "Team Member";
+  var EMP_DEPT = getParam("department") || "Apollo";
+  var EMP_START = getParam("start") || "soon";
+  var EMP_MANAGER = getParam("manager") || "your manager";
+  var EMP_MANAGER_EMAIL = getParam("manager_email") || "hr@apollo-gs.com";
+
+  document.title = EMP_NAME + " — Apollo Onboarding Experience";
+  document.getElementById("empName").textContent = EMP_NAME;
+  document.getElementById("empRole").textContent = EMP_ROLE;
+  document.getElementById("empDept").textContent = EMP_DEPT;
+  document.getElementById("empStart").textContent = EMP_START;
+  document.getElementById("footerManager").textContent = EMP_MANAGER;
+  document.getElementById("footerManagerEmail").textContent = EMP_MANAGER_EMAIL;
+
+  var SLUG = getParam("slug") || slugify(getParam("name"));
   var KEY_CHECKLIST = "apollo_onboarding_progress_" + SLUG;
   var KEY_QUIZ = "apollo_onboarding_quiz_" + SLUG;
   var KEY_GAME = "apollo_onboarding_game_" + SLUG;
@@ -200,7 +223,7 @@
     "Complete IT security training",
     "Read company handbook",
     "Set up CRM access",
-    "Meet with direct manager ({{MANAGER}})",
+    "Meet with direct manager (" + EMP_MANAGER + ")",
     "Meet team members (minimum 3 intro meetings)",
     "Review current project portfolio",
     "Submit signed employment documents to HR",

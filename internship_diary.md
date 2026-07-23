@@ -4,13 +4,15 @@ This document contains Ümmügülsün Türkmen's daily reports for the 20-day in
 
 ---
 
-## Day 1: Orientation and Project Planning
+## Day 1: Orientation and Company Introduction
 **Date:** June 25, 2026 (Thursday)
 
-- Attended the welcoming and orientation meeting.
-- Discussed the company's general workflow and operational processes.
-- Reviewed the primary software tools and platforms used by the team.
-- Received the initial assignment: developing a research plan focused on the Claude AI model.
+- Attended the welcoming meeting and orientation session at Apollo Green Solutions.
+- Received a detailed briefing on the company's background and history: Founded in 2022 in Cologne, Germany, Apollo Green Solutions is a startup specializing in digital energy management. Its core mission revolves around providing AI-driven energy management systems (IEMS) designed for small and medium-sized enterprises (SMEs) to meet sustainability goals and ISO 50001 regulatory requirements.
+- Explored the company's technological framework, which utilizes advanced machine learning (deep learning and reinforcement learning) to monitor energy flows and make real-time, predictive adjustments. The vendor-agnostic system integrates with hardware from Schneider Electric, Siemens, ABB, and Wago to help businesses optimize energy consumption and reduce costs.
+- Reviewed the organizational framework, reporting hierarchies, and cross-departmental operations spanning Engineering, Operations, HR, and Management.
+- Participated in IT and workplace orientation, setting up internal software platforms and communication channels (Microsoft Teams, Outlook), although corporate email access was temporarily pending.
+- Received the initial project assignment from manager Alexandra Xanthopoulos: researching and developing an automation strategy leveraging the Claude AI ecosystem to optimize internal operations, compliance workflows, and employee onboarding processes.
 
 ---
 
@@ -20,7 +22,7 @@ This document contains Ümmügülsün Türkmen's daily reports for the 20-day in
 - Conducted comprehensive research on the collaborative and workspace features of the Claude AI ecosystem.
 - Evaluated features including Claude Cowork (reading local files, automating documents), Claude Skills (defining specialized expert roles), Projects & Sub-agents (isolated workspaces and sub-agents), and Connectors (Slack, Google Drive, Jira integrations).
 - Prepared and sent a professional email report to Alexandra summarizing the research and presenting recommendations to optimize Apollo's daily workflows and documentation processes.
-- Planned to prepare a detailed pros and cons analysis sheet of these features for our specific use cases as the next step.
+- Planned to prepare a detailed pros and cons analysis sheet of these features for Apollo's specific use cases as the next step.
 
 ---
 
@@ -42,7 +44,7 @@ This document contains Ümmügülsün Türkmen's daily reports for the 20-day in
 - Conducted a brief progress check-in meeting with manager Alexandra.
 - Shared screen to present the repository structure on GitHub, highlighting the logs and the deliverables folder.
 - Provided a status update on the draft of the Claude Chat GDPR & Team Efficiency Guide, confirming it is on track for final review by Friday.
-- Aligned on the plan for Friday’s practical review: Alexandra will share her screen using her active Claude Enterprise account, and we will walk through features (such as Projects, shared templates, and settings) live using our guide as the reference document.
+- Aligned on the plan for Friday's practical review: Alexandra would share her screen using her active Claude Enterprise account, and the features (such as Projects, shared templates, and settings) would be walked through live using the prepared guide as the reference document.
 - Received an update on enterprise credentials: admin access is currently pending, so research will continue to focus on theoretical application and training guides until Friday.
 - Scheduled the next check-in meeting for tomorrow at the same time.
 
@@ -94,7 +96,7 @@ This document contains Ümmügülsün Türkmen's daily reports for the 20-day in
 
 - Conducted a check-in call with manager Alexandra at 3:00 PM via Microsoft Teams.
 - Shared screen to walk through the comprehensive *Claude Feature Analysis & Use Cases* document live on GitHub.
-- Received feedback and aligned on a revised priority: prior to deploying integrations, we must build a structured, visual onboarding and training package for non-technical company employees to facilitate AI transition.
+- Received feedback and aligned on a revised priority: prior to deploying integrations, a structured, visual onboarding and training package for non-technical company employees must be built to facilitate AI transition.
 - Documented requirements for the training deck: it must explain the function of every single UI button, clarify data privacy (e.g., confirming that workspace admins *cannot* view individual chat content), and answer 20-30 critical onboarding questions.
 - Agreed to present a visual slide deck using annotated screenshots of the Claude interface at tomorrow's follow-up meeting.
 - Began development of an interactive HTML-based onboarding presentation (`claude_employee_onboarding_presentation.html`) incorporating actual screenshots of the Chat UI, Projects interface, and Settings panel.
@@ -135,7 +137,7 @@ This document contains Ümmügülsün Türkmen's daily reports for the 20-day in
 ---
 
 ## Day 13: Onboarding Automation — Full Implementation and Testing
-**Date:** July 11, 2026 (Friday)
+**Date:** July 13, 2026 (Monday)
 
 - Finalized the complete Employee Onboarding Automation system, building a three-level architecture that provides flexibility for different use cases:
   - **Level 1 — Claude Chat (Primary):** Built a custom MCP (Model Context Protocol) server in Node.js with nodemailer that gives Claude Desktop the ability to send branded HTML onboarding emails directly. Alexandra can now simply tell Claude "Onboard Maria Schmidt, Energy Consultant, Engineering, July 21" and Claude sends the email autonomously.
@@ -154,7 +156,7 @@ This document contains Ümmügülsün Türkmen's daily reports for the 20-day in
 ---
 
 ## Day 14: System Finalization and Stakeholder Communication
-**Date:** July 13, 2026 (Monday)
+**Date:** July 14, 2026 (Tuesday)
 
 - Conducted a final architectural review of the Onboarding Automation system. Simplified the Claude Skill (`SKILL.md`) to exclusively rely on the Custom MCP integration for email delivery, successfully eliminating redundant artifact (HTML/Portal) generation and optimizing token usage.
 - Prepared a comprehensive presentation rehearsal guide (`presentation_rehearsal_guide.md`) containing step-by-step demo instructions, stage directions, and Q&A defense strategies for the upcoming manager review.
@@ -167,20 +169,20 @@ This document contains Ümmügülsün Türkmen's daily reports for the 20-day in
 ---
 
 ## Day 15: Iterative Refinement and Advanced Automation Planning
-**Date:** July 14, 2026 (Tuesday)
+**Date:** July 15, 2026 (Wednesday)
 
 - Received and analyzed manager feedback regarding the automated onboarding email template generated by the MCP integration.
 - Implemented CSS layout standardizations within the custom MCP server (`server.mjs`) to ensure all dynamic contact grid boxes maintain a perfectly uniform height regardless of varying text lengths.
 - Addressed a stakeholder request for an "interactive checklist". Navigated email client security restrictions (which block embedded interactive elements) by engineering a strategic workaround: embedded a secure "Open Interactive Checklist" button designed to route new hires to the company's preferred task-tracking platform (e.g., Microsoft Planner or Notion).
 - Engaged in technical planning with management regarding future workflow expansions. Conceptualized a "Monthly HR Report Card" automation, outlining an approach to utilize Claude's scheduled tasks to autonomously aggregate team data and dispatch the report on the 1st of every month.
-- Successfully aligned expectations and confirmed the strategic agenda for Thursday's comprehensive system demo and feature expansion meeting.
+- Successfully aligned expectations and confirmed the strategic agenda for Friday's comprehensive system demo and feature expansion meeting.
 
 ---
 
 ## Day 16: System Architecture Review and Advanced Cowork Setup
-**Date:** July 15, 2026 (Wednesday)
+**Date:** July 16, 2026 (Thursday)
 
-- Dedicated time to independent research and structuring the presentation strategy for the upcoming Thursday system demo.
+- Dedicated time to independent research and structuring the presentation strategy for the next day's system demo.
 - Conducted a deep dive into the local deployment constraints of the custom Model Context Protocol (MCP) server. Formulated a clear, non-technical explanation for management regarding why the current Node.js email server runs exclusively on the local environment and how this architectural decision impacts a broader team rollout.
 - Developed potential deployment alternatives (such as cloud-hosted connectors or third-party webhooks) to present as solutions for scaling the automation beyond a single local machine.
 - Analyzed the advanced Claude Cowork setup video shared by manager Alexandra. Extracted key methodologies for systematizing workflows, particularly the implementation of a "persistent brain" using `CLAUDE.md`.
@@ -189,7 +191,7 @@ This document contains Ümmügülsün Türkmen's daily reports for the 20-day in
 ---
 
 ## Day 17: Live System Demo and Architecture Pivot
-**Date:** July 16, 2026 (Thursday)
+**Date:** July 17, 2026 (Friday)
 
 ### Morning: Live Demo to Management (11:30–12:00)
 
@@ -206,7 +208,7 @@ This document contains Ümmügülsün Türkmen's daily reports for the 20-day in
 
 - Attempted to configure the custom MCP email server with the manager's corporate Outlook account (`@apollo-gs.com`). Navigated to Microsoft's security settings (`mysignins.microsoft.com`) to generate an App Password but discovered the option was entirely absent from the available authentication methods.
 - **Root cause identified:** The corporate Microsoft 365 tenant has disabled basic SMTP authentication (App Passwords) organization-wide in favor of Modern Authentication (OAuth2). This is a Microsoft-enforced security policy — not a configuration error — confirmed by Microsoft's own documentation stating "Authentication Method: OAuth2/Modern Authentication" for all Outlook SMTP connections.
-- Conducted a multi-session architectural review using Claude as a senior technical sounding board to determine whether this was a solvable problem or a hard platform constraint. Claude confirmed unequivocally: *"There is no password-based way into her mailbox left."* Any application sending email through a corporate Outlook account — whether a custom script, Zapier, or Anthropic's own official connector — requires an Azure App Registration with admin consent. This is Microsoft's tenant security model, not a limitation of our code.
+- Conducted a multi-session architectural review using Claude as a senior technical sounding board to determine whether this was a solvable problem or a hard platform constraint. Claude confirmed unequivocally: *"There is no password-based way into her mailbox left."* Any application sending email through a corporate Outlook account — whether a custom script, Zapier, or Anthropic's own official connector — requires an Azure App Registration with admin consent. This is Microsoft's tenant security model, not a limitation of the project's code.
 
 ### Strategic Decision: Architecture Pivot to Power Automate (Option 2)
 
@@ -220,7 +222,7 @@ This document contains Ümmügülsün Türkmen's daily reports for the 20-day in
 ---
 
 ## Day 18: Power Automate Implementation and End-to-End Validation
-**Date:** July 17, 2026 (Friday)
+**Date:** July 20, 2026 (Monday)
 
 ### HTML Template Optimization for Outlook Compatibility
 
@@ -270,7 +272,7 @@ This document contains Ümmügülsün Türkmen's daily reports for the 20-day in
 ---
 
 ## Day 19: Documentation, GitHub Restructuring, and Phase 2 Portal
-**Date:** July 17, 2026 (Friday)
+**Date:** July 21, 2026 (Tuesday)
 
 ### GitHub Documentation Overhaul
 
@@ -303,7 +305,7 @@ This document contains Ümmügülsün Türkmen's daily reports for the 20-day in
 ---
 
 ## Day 20: System Handover to Management — Live Demo and Next Phase Planning
-**Date:** July 20, 2026 (Monday)
+**Date:** July 22, 2026 (Wednesday)
 
 ### Pre-Meeting Preparation
 
